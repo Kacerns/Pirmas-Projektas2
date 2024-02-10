@@ -5,8 +5,8 @@ using namespace std;
 
 struct stud{
     string vard, pav;                                                                // saugom studentu varda ir pavarde
-    int nd, egz;                                                                       // saugom tarpini namu darbu rezultata, egzamino rezultata
-    float vidurkis;
+    int nd, egz = 0;                                                                       // saugom tarpini namu darbu rezultata, egzamino rezultata
+    double vidurkis = 0;
 };
 
 int main(){
@@ -28,12 +28,14 @@ int main(){
         cout << "Iveskite " << n << " studento namu darbu pazymiu"<<endl;
         for(int j = 0; j<n; j++){
             cin >> obj[i].nd;
-            obj[i].vidurkis += (float)obj[i].nd;
+            obj[i].vidurkis += obj[i].nd;
         }
         obj[i].vidurkis = obj[i].vidurkis/n;
         cout << "Iveskite egzamino pazymi"<<endl;
         cin >> obj[i].egz;
-        obj[i].vidurkis = (obj[i].vidurkis*0.4)+(obj[i].egz*0.6);
+        obj[i].vidurkis = obj[i].vidurkis * 0.4;
+        cout << obj[i].vidurkis <<endl;
+        obj[i].vidurkis = (double)obj[i].egz * 0.6 + obj[i].vidurkis;
     }
         for(int i = 0; i<s; i++){
         cout << "Studento vardas" <<endl;
