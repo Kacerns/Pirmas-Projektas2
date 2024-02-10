@@ -31,6 +31,7 @@ void Read (stud* obj, int n, int s){
 
 void Print (stud* obj, int s){
 
+    cout << endl << endl;
     cout << left << setw(10) << "Vardas"  << setw(15) << "Pavarde" << setw(15) << left << "Galutinis (Vid.)" << endl;
     for (int z = 0; z<50; z++){ cout << '-'; }
     cout << endl;
