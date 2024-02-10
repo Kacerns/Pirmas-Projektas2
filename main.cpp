@@ -25,21 +25,24 @@ int main(){
         cout << "Iveskite studento pavarde" <<endl;
         cin >> obj[i].pav;
         cout << endl;
-        cout << "Iveskite " << n << " studento pazymiu"<<endl;
+        cout << "Iveskite " << n << " studento namu darbu pazymiu"<<endl;
         for(int j = 0; j<n; j++){
             cin >> obj[i].nd;
             obj[i].vidurkis += (float)obj[i].nd;
         }
         obj[i].vidurkis = obj[i].vidurkis/n;
+        cout << "Iveskite egzamino pazymi"<<endl;
+        cin >> obj[i].egz;
+        obj[i].vidurkis = (obj[i].vidurkis*0.4)+(obj[i].egz*0.6);
     }
         for(int i = 0; i<s; i++){
         cout << "Studento vardas" <<endl;
         cout << obj[i].vard<<endl;
-        cout << "Studento pa" <<endl;
-        cin >> obj[i].pav;
+        cout << "Studento pavarde" <<endl;
+        cout << obj[i].pav;
         cout << endl;
-
-        obj[i].vidurkis = obj[i].vidurkis/n;
+        cout << "Studento vidurkis"<<endl;
+        cout << obj[i].vidurkis;
     }
     delete[] obj;
     return 0;
