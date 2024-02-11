@@ -1,18 +1,40 @@
 #include <iostream>
 #include <iomanip>
 #include <string>
+#include<ios>
+#include<limits>
 
 using namespace std;
 
 struct stud{
-    string vard, pav;                                                                       // saugom studentu varda ir pavarde
+    string vard, pav;
     int* nd = nullptr; 
-    int egz = 0;                                                                       // saugom tarpini namu darbu rezultata, egzamino rezultata
+    int egz = 0;
     float vidurkis = 0;
     float mediana = 0;
 };
 
+void Assign(stud* obj, int n, int s);
+float getAverage(stud* obj, int n, int i);
+float getMedian(stud* obj, int n, int i);
+void Print (stud* obj, int s);
+int Parameters(int p);
 
+int main(){
+    int s = 0, n = 0;
+    stud *obj = new stud[s];
+    delete[] obj;
+    cout << "Iveskite studentu skaiciu :    ";
+    s = Parameters(s);
+    cout << "Iveskite namu darbu uzduociu skaiciu :     ";
+    n = Parameters(n);
+    obj = new stud[s];
+    Assign(obj, n, s);
+    Print(obj, s);
+    delete[] obj;
+    return 0;
+
+}
 
 float getAverage(stud* obj, int n, int i){
     obj[i].vidurkis = obj[i].vidurkis/n;
@@ -41,9 +63,9 @@ float getMedian(stud* obj, int n, int i){
 void Assign(stud* obj, int n, int s){
     for(int i = 0; i<s; i++){
         
-        cout << "Iveskite studento varda: " <<endl;
+        cout << "Iveskite " << i+1 << " studento varda :  ";
         cin >> obj[i].vard;
-        cout << "Iveskite studento pavarde: " <<endl;
+        cout << "Iveskite " << i+1 << " studento pavarde :  ";
         cin >> obj[i].pav;
         cout << "Iveskite " << obj[i].vard << " namu darbu pazymius: "<<endl;
         obj[i].nd = new int[n];
@@ -51,7 +73,7 @@ void Assign(stud* obj, int n, int s){
             cin >> obj[i].nd[j];
             obj[i].vidurkis += obj[i].nd[j];
         }
-        cout << "Iveskite egzamino rezultata"<<endl;
+        cout << "Iveskite " << obj[i].vard << " egzamino rezultata"<<endl;
         cin >> obj[i].egz;
         getAverage(obj, n, i);
         getMedian(obj, n, i);   
@@ -92,19 +114,16 @@ void Print (stud* obj, int s){
     
 }
 
-int main(){
-    int s = 0, n = 0;                                                                          //kiek studentu ir namu darbu
-    stud *obj = new stud[s];
-    delete[] obj;
-    cout << "Iveskite studentu skaiciu" <<endl;
-    cin >> s;
-    cout << "Iveskite namu darbu uzduociu skaiciu: "<<endl;
-    cin >> n;
-    obj = new stud[s];
-    Assign(obj, n, s);
-    Print(obj, s);
-
-    delete[] obj;
-    return 0;
-
+int Parameters(int p){
+    cin >> p;
+    string str = to_string(p);
+    for(char c : str){
+        if(p <=0 || !(isdigit(c)) || cin.fail()){
+        cin.clear();
+        cin.ignore(numeric_limits<streamsize>::max(), '\n');
+        cout << " Netinkamas Ivesties formatas, bandykite dar karta :   ";
+        return Parameters(p);
+    }
+    }
+    return p;
 }
