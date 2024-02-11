@@ -1,8 +1,8 @@
 #include <iostream>
 #include <iomanip>
 #include <string>
-#include<ios>
-#include<limits>
+#include <ios>
+#include <limits>
 
 using namespace std;
 
@@ -18,16 +18,18 @@ void Assign(stud* obj, int n, int s);
 float getAverage(stud* obj, int n, int i);
 float getMedian(stud* obj, int n, int i);
 void Print (stud* obj, int s);
-int Parameters(int p);
+int StartParameters(int p);
+string StringParameters(string str);
+int GradingParameters(int p);
+void Clear ();
 
 int main(){
     int s = 0, n = 0;
-    stud *obj = new stud[s];
-    delete[] obj;
+    stud *obj = nullptr;
     cout << "Iveskite studentu skaiciu :    ";
-    s = Parameters(s);
+    s = StartParameters(s);
     cout << "Iveskite namu darbu uzduociu skaiciu :     ";
-    n = Parameters(n);
+    n = StartParameters(n);
     obj = new stud[s];
     Assign(obj, n, s);
     Print(obj, s);
@@ -64,17 +66,17 @@ void Assign(stud* obj, int n, int s){
     for(int i = 0; i<s; i++){
         
         cout << "Iveskite " << i+1 << " studento varda :  ";
-        cin >> obj[i].vard;
+        obj[i].vard = StringParameters(obj[i].vard);
         cout << "Iveskite " << i+1 << " studento pavarde :  ";
-        cin >> obj[i].pav;
-        cout << "Iveskite " << obj[i].vard << " namu darbu pazymius: "<<endl;
+        obj[i].pav = StringParameters(obj[i].pav);
+        cout << "Iveskite " << n << " namu darbu pazymius: "<<endl;
         obj[i].nd = new int[n];
         for(int j = 0; j<n; j++){
-            cin >> obj[i].nd[j];
+            obj[i].nd[j] = GradingParameters(obj[i].nd[j]);
             obj[i].vidurkis += obj[i].nd[j];
         }
-        cout << "Iveskite " << obj[i].vard << " egzamino rezultata"<<endl;
-        cin >> obj[i].egz;
+        cout << "Iveskite " << obj[i].vard << " egzamino rezultata :  ";
+        obj[i].egz = GradingParameters(obj[i].egz);
         getAverage(obj, n, i);
         getMedian(obj, n, i);   
     }
@@ -83,7 +85,7 @@ void Assign(stud* obj, int n, int s){
 void Print (stud* obj, int s){
 
     int temp;
-    cout << endl << endl << " Pasirinkite galutinio rezultato skaiciavimo buda : " << endl;
+    cout << endl << endl << " Pasirinkite galutinio rezultato pateikimo buda : " << endl;
     cout << " (1) Namu darbu vidurkis. " << endl; 
     cout << " (2) Namu darbu mediana." << endl;
 
@@ -114,16 +116,45 @@ void Print (stud* obj, int s){
     
 }
 
-int Parameters(int p){
+int StartParameters(int p){
     cin >> p;
     string str = to_string(p);
     for(char c : str){
-        if(p <=0 || !(isdigit(c)) || cin.fail()){
-        cin.clear();
-        cin.ignore(numeric_limits<streamsize>::max(), '\n');
-        cout << " Netinkamas Ivesties formatas, bandykite dar karta :   ";
-        return Parameters(p);
-    }
+        if(p <=0 || !(isdigit(c)) || cin.fail() || isblank(c)){
+            Clear();
+            cout << " Netinkamas Ivesties formatas, bandykite dar karta :   " << endl;
+            return StartParameters(p);
+        }
     }
     return p;
+}
+
+string StringParameters(string p){
+    cin >> p;
+    for(char c : p){
+        if(isdigit(c) || cin.fail() || p.size()>25 || isblank(c)){
+            Clear();
+            cout << " Netinkamas Ivesties formatas, bandykite dar karta :   " << endl;
+            return StringParameters(p);
+        }
+    }
+    return p;
+}
+
+int GradingParameters(int p){
+    cin >> p;
+    string str = to_string(p);
+    for(char c : str){
+        if(p < 0 || p > 10 || !(isdigit(c)) || cin.fail() || isblank(c)){
+            Clear();
+            cout << " Netinkamas Ivesties formatas, bandykite dar karta :   " << endl;
+            return GradingParameters(p);
+        }
+    }
+    return p;
+}
+
+void Clear (){
+    cin.clear();
+    cin.ignore(numeric_limits<streamsize>::max(), '\n');
 }
