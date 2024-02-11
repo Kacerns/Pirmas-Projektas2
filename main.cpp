@@ -26,9 +26,9 @@ void Clear ();
 int main(){
     int s = 0, n = 0;
     stud *obj = nullptr;
-    cout << "Iveskite studentu skaiciu :    ";
+    cout << "Iveskite studentų skaičių :    ";
     s = StartParameters(s);
-    cout << "Iveskite namu darbu uzduociu skaiciu :     ";
+    cout << "Įveskite namų darbų užduočių skaičių :     ";
     n = StartParameters(n);
     obj = new stud[s];
     Assign(obj, n, s);
@@ -65,17 +65,17 @@ float getMedian(stud* obj, int n, int i){
 void Assign(stud* obj, int n, int s){
     for(int i = 0; i<s; i++){
         
-        cout << "Iveskite " << i+1 << " studento varda :  ";
+        cout << "Įveskite " << i+1 << " studento vardą :  ";
         obj[i].vard = StringParameters(obj[i].vard);
-        cout << "Iveskite " << i+1 << " studento pavarde :  ";
+        cout << "Įveskite " << i+1 << " studento pavardę :  ";
         obj[i].pav = StringParameters(obj[i].pav);
-        cout << "Iveskite " << n << " namu darbu pazymius: "<<endl;
+        cout << "Įveskite " << i+1 << "-o studento namų darbų pažymius: "<<endl;
         obj[i].nd = new int[n];
         for(int j = 0; j<n; j++){
             obj[i].nd[j] = GradingParameters(obj[i].nd[j]);
             obj[i].vidurkis += obj[i].nd[j];
         }
-        cout << "Iveskite " << obj[i].vard << " egzamino rezultata :  ";
+        cout << "Įveskite " << i+1 << "-o studento egzamino rezultatą :  ";
         obj[i].egz = GradingParameters(obj[i].egz);
         getAverage(obj, n, i);
         getMedian(obj, n, i);   
@@ -85,15 +85,15 @@ void Assign(stud* obj, int n, int s){
 void Print (stud* obj, int s){
 
     int temp;
-    cout << endl << endl << " Pasirinkite galutinio rezultato pateikimo buda : " << endl;
-    cout << " (1) Namu darbu vidurkis. " << endl; 
-    cout << " (2) Namu darbu mediana." << endl;
+    cout << endl << endl << " Pasirinkite galutinio rezultato pateikimo būdą : " << endl;
+    cout << " (1) Namų darbų vidurkis. " << endl; 
+    cout << " (2) Namų darbų mediana." << endl;
 
     cin >> temp;
 
     switch(temp){
         case (1):
-            cout << left << setw(10) << "Vardas"  << setw(15) << "Pavarde" << setw(15) << left << "Galutinis (Vid.)" << endl;
+            cout << left << setw(10) << "Vardas"  << setw(15) << "Pavardė" << setw(15) << left << "Galutinis (Vid.)" << endl;
             for (int z = 0; z<50; z++){ cout << '-'; }
             cout << endl;
             for(int i = 0; i<s; i++){
@@ -101,7 +101,7 @@ void Print (stud* obj, int s){
             }
             break;
         case (2):
-            cout << left << setw(10) << "Vardas"  << setw(15) << "Pavarde" << setw(15) << left << "Galutinis (Med.)" << endl;
+            cout << left << setw(10) << "Vardas"  << setw(15) << "Pavardė" << setw(15) << left << "Galutinis (Med.)" << endl;
             for (int z = 0; z<50; z++){ cout << '-'; }
             cout << endl;
             for(int i = 0; i<s; i++){
@@ -109,7 +109,7 @@ void Print (stud* obj, int s){
             }
             break;
         default:
-            cout << " Pateikete netinkama simboli, bandykite is naujo" << endl;
+            cout << " Pateikėte netinkamą simbolį, bandykite iš naujo" << endl;
             Print(obj, s);
             break;
     }
@@ -122,7 +122,7 @@ int StartParameters(int p){
     for(char c : str){
         if(p <=0 || !(isdigit(c)) || cin.fail() || isblank(c)){
             Clear();
-            cout << " Netinkamas Ivesties formatas, bandykite dar karta :   " << endl;
+            cout << " Netinkamas įvesties formatas, bandykite dar kartą :   " << endl;
             return StartParameters(p);
         }
     }
@@ -134,7 +134,7 @@ string StringParameters(string p){
     for(char c : p){
         if(isdigit(c) || cin.fail() || p.size()>25 || isblank(c)){
             Clear();
-            cout << " Netinkamas Ivesties formatas, bandykite dar karta :   " << endl;
+            cout << " Netinkamas įvesties formatas, bandykite dar kartą :   " << endl;
             return StringParameters(p);
         }
     }
@@ -147,7 +147,7 @@ int GradingParameters(int p){
     for(char c : str){
         if(p < 0 || p > 10 || !(isdigit(c)) || cin.fail() || isblank(c)){
             Clear();
-            cout << " Netinkamas Ivesties formatas, bandykite dar karta :   " << endl;
+            cout << " Netinkamas įvesties formatas, bandykite dar kartą :   " << endl;
             return GradingParameters(p);
         }
     }
