@@ -3,6 +3,7 @@
 #include <string>
 #include <ios>
 #include <limits>
+#include <algorithm>
 
 using namespace std;
 
@@ -15,6 +16,7 @@ struct stud{
 };
 
 void Assign(stud*& obj, int& counter);
+int RandomGrades(stud*& obj, int counter, int& ndcounter);
 float getAverage(stud*& obj, int n, int i);
 float getMedian(stud*& obj, int n, int i);
 void Print (stud*& obj, int counter);
@@ -24,9 +26,13 @@ int GradingParameters(int p);
 int ExamParameters(int p);
 void ClearCin();
 
+string* Names = new string [10] {"Audrius", "Edvard", "Ganesh", "Nojus", "Cleophas", "Rodrigo","Jurgita", "Ugne", "Tatiana", "Sarah"};
+string* Surnames = new string [10] {"Czerniewicz", "Finch", "Hummel", "McKowen", "Warszawski", "Clery", "Wilbur", "Kennedy", "Nixon", "Obama"};
+
 int main(){
     stud *obj = nullptr;
     int counter = 0;
+    srand(time(nullptr));
 
     Assign(obj, counter);
     Print(obj, counter);
@@ -59,6 +65,26 @@ float getMedian(stud*& obj, int n, int i){
     return obj[i].mediana;
 }
 
+int RandomGrades(stud*& obj, int counter, int& ndcounter){
+    cout << " Generuojami pažymiai... " << endl;
+    ndcounter = rand() % 100 + 1;
+    obj[counter].egz = rand() % 10;
+    obj[counter].nd = new int[ndcounter];
+    for(int i = 0; i<ndcounter; i++){
+        obj[counter].nd[i] = rand() % 10;
+        obj[counter].vidurkis += obj[counter].nd[i];
+    }
+    cout << " Pažymiai sugeneruoti " << endl;
+    return ndcounter;
+}
+
+void RandomNames(stud*& obj, int counter){
+    cout << " Generuojami vardai... " << endl;
+    obj[counter].vard = Names[rand() % 10];
+    obj[counter].pav = Surnames[rand() % 10];
+    cout << " Vardai sugeneruoti " << endl;
+}
+
 void Assign(stud*& obj, int& counter){
     stud* tempstud = nullptr;
     bool pass = true;
@@ -67,65 +93,138 @@ void Assign(stud*& obj, int& counter){
     while(pass){
         cout << " Ar norite pridėti studentą? (Y/N) " << endl;
         cin >> c;
+        int option = 0;
         ClearCin();
         switch (c){
             case 'Y':
             {
-                tempstud = new stud[counter];
-                for(int i = 0; i<counter; i++){
-                    tempstud[i]=obj[i];
-                }
-                delete[] obj;
-                obj = new stud[counter+1];
-                for(int z = 0; z<counter; z++){
-                    obj[z]=tempstud[z];
-                }
-                delete[] tempstud;
+                cout << " Pasrinkite studento pridėjimo eigą: " << endl;
+                cout << " (1) Duomenis suvesti ranka. " << endl; 
+                cout << " (2) Atsitiktinai generuoti tik studento pažymius" << endl;
+                cout << " (3) Atsitiktinai generuoti visus studento duomenis" << endl;
+                cout << " (4) Uždaryti programą (Atsargiai!! Pasirinkus šį nustatymą dingsta visi jūsų įvesti duomenys ir programa užsidaro)" << endl;
 
-                cout << "Įveskite " << counter+1 << " studento vardą :  ";
-                obj[counter].vard = StringParameters(obj[counter].vard);
-                cout << "Įveskite " << counter+1 << " studento pavardę :  ";
-                obj[counter].pav = StringParameters(obj[counter].pav);
-                cout << "Įveskite " << counter+1 << "-o studento namų darbų pažymius ( Jei norite baigti, įveskite 11) "<<endl;
-                bool ndCheck = true;
-                int ndcounter = 0;
-                int* tempnd = nullptr;
-                int* truend = new int[ndcounter];
-                while(ndCheck){
-                    ndcounter++;
-                    tempnd = new int[ndcounter-1];
-                    for(int k = 0; k<ndcounter-1; k++){
-                        tempnd[k]=truend[k];
+                cin >> option;
+                ClearCin();
+
+                switch (option){
+                    case (1): 
+                    {
+                        tempstud = new stud[counter];
+                        for(int i = 0; i<counter; i++){
+                            tempstud[i]=obj[i];
+                        }
+                        delete[] obj;
+                        obj = new stud[counter+1];
+                        for(int z = 0; z<counter; z++){
+                            obj[z]=tempstud[z];
+                        }
+                        delete[] tempstud;
+
+                        cout << "Įveskite " << counter+1 << " studento vardą :  ";
+                        obj[counter].vard = StringParameters(obj[counter].vard);
+                        cout << "Įveskite " << counter+1 << " studento pavardę :  ";
+                        obj[counter].pav = StringParameters(obj[counter].pav);
+                        cout << "Įveskite " << counter+1 << "-o studento namų darbų pažymius ( Jei norite baigti, įveskite 11) "<<endl;
+                        bool ndCheck = true;
+                        int ndcounter = 0;
+                        int* tempnd = nullptr;
+                        int* truend = new int[ndcounter];
+                        while(ndCheck){
+                            ndcounter++;
+                            tempnd = new int[ndcounter-1];
+                            for(int k = 0; k<ndcounter-1; k++){
+                                tempnd[k]=truend[k];
+                            }
+                            delete[] truend;
+                            truend = new int[ndcounter];
+                            for(int l = 0; l<ndcounter-1; l++){
+                                truend[l]=tempnd[l];
+                            }
+                            delete[] tempnd;
+                            truend[ndcounter-1]= GradingParameters(truend[ndcounter-1]);
+                            if(truend[ndcounter-1] == 11){
+                                ndCheck=false;
+                                break;
+                            }
+                        }
+                        obj[counter].nd = new int [ndcounter];
+                        for(int j = 0; j<ndcounter-1; j++){
+                            obj[counter].nd[j] = truend[j];
+                            obj[counter].vidurkis += obj[counter].nd[j];
+                        }
+                        delete[] truend;
+                        cout << "Įveskite " << counter+1 << "-o studento egzamino rezultatą :  ";
+                        obj[counter].egz = ExamParameters(obj[counter].egz);
+                        if(ndcounter > 1){
+                            getAverage(obj, ndcounter-1, counter);
+                            getMedian(obj, ndcounter-1, counter);
+                        }
+                        else{
+                            obj[counter].vidurkis = 0.6*obj[counter].egz;
+                            obj[counter].mediana = 0.6*obj[counter].egz;
+                        }
+                        counter++;
+                        break;
                     }
-                    delete[] truend;
-                    truend = new int[ndcounter];
-                    for(int l = 0; l<ndcounter-1; l++){
-                        truend[l]=tempnd[l];
+                    case (2):
+                    {
+                        tempstud = new stud[counter];
+                        for(int i = 0; i<counter; i++){
+                            tempstud[i]=obj[i];
+                        }
+                        delete[] obj;
+                        obj = new stud[counter+1];
+                        for(int z = 0; z<counter; z++){
+                            obj[z]=tempstud[z];
+                        }
+                        delete[] tempstud;
+
+                        cout << "Įveskite " << counter+1 << " studento vardą :  ";
+                        obj[counter].vard = StringParameters(obj[counter].vard);
+                        cout << "Įveskite " << counter+1 << " studento pavardę :  ";
+                        obj[counter].pav = StringParameters(obj[counter].pav);
+                        int ndcounter = 0;
+                        ndcounter = RandomGrades(obj, counter, ndcounter);
+                        getAverage(obj, ndcounter, counter);
+                        getMedian(obj, ndcounter, counter);
+                        counter++;
+                        break;
                     }
-                    delete[] tempnd;
-                    truend[ndcounter-1]= GradingParameters(truend[ndcounter-1]);
-                    if(truend[ndcounter-1] == 11){
-                        ndCheck=false;
+                    case (3):
+                    {
+                        tempstud = new stud[counter];
+                        for(int i = 0; i<counter; i++){
+                            tempstud[i]=obj[i];
+                        }
+                        delete[] obj;
+                        obj = new stud[counter+1];
+                        for(int z = 0; z<counter; z++){
+                            obj[z]=tempstud[z];
+                        }
+                        delete[] tempstud;
+
+                        RandomNames(obj, counter);
+                        int ndcounter = 0;
+                        ndcounter = RandomGrades(obj, counter, ndcounter);
+                        getAverage(obj, ndcounter, counter);
+                        getMedian(obj, ndcounter, counter);
+                        counter++;
+                        break;
+                        
+                    }
+                    case (4):
+                    {
+                        cout << " Programos darbas baigiamas " << endl;
+                        exit(0);
+                        break;
+                    }
+                    default:
+                    {
+                        cout << " Netinkamas įvesties formatas, bandykite dar kartą :   " << endl;
                         break;
                     }
                 }
-                obj[counter].nd = new int [ndcounter];
-                for(int j = 0; j<ndcounter-1; j++){
-                    obj[counter].nd[j] = truend[j];
-                    obj[counter].vidurkis += obj[counter].nd[j];
-                }
-                delete[] truend;
-                cout << "Įveskite " << counter+1 << "-o studento egzamino rezultatą :  ";
-                obj[counter].egz = ExamParameters(obj[counter].egz);
-                if(ndcounter > 1){
-                    getAverage(obj, ndcounter-1, counter);
-                    getMedian(obj, ndcounter-1, counter);
-                }
-                else{
-                    obj[counter].vidurkis = 0.6*obj[counter].egz;
-                    obj[counter].mediana = 0.6*obj[counter].egz;
-                }
-                counter++;
                 break;
             }
             case 'N':
