@@ -17,6 +17,7 @@ struct stud{
 
 void Assign(stud*& obj, int& counter);
 int RandomGrades(stud*& obj, int counter, int& ndcounter);
+void RandomNames(stud*& obj, int counter);
 float getAverage(stud*& obj, int n, int i);
 float getMedian(stud*& obj, int n, int i);
 void Print (stud*& obj, int counter);
