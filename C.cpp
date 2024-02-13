@@ -14,10 +14,10 @@ struct stud{
     float mediana = 0;
 };
 
-void Assign(stud* obj);
+void Assign(stud*& obj, int& counter);
 float getAverage(stud* obj, int n, int i);
 float getMedian(stud* obj, int n, int i);
-void Print (stud* obj);
+void Print (stud*& obj, int counter);
 int StartParameters(int p);
 string StringParameters(string str);
 int GradingParameters(int p);
@@ -26,10 +26,10 @@ void ClearCin();
 
 int main(){
     stud *obj = nullptr;
+    int counter = 0;
 
-    Assign(obj);
-    cout << obj[0].vard;
-    Print(obj);
+    Assign(obj, counter);
+    Print(obj, counter);
     delete[] obj;
     return 0;
 
@@ -59,11 +59,9 @@ float getMedian(stud* obj, int n, int i){
     return obj[i].mediana;
 }
 
-void Assign(stud* obj){
+void Assign(stud*& obj, int& counter){
     stud* tempstud = nullptr;
-    string p;
     bool pass = true;
-    int fk = 0;
     obj = nullptr;
     char c = ' ';
     while(pass){
@@ -73,27 +71,26 @@ void Assign(stud* obj){
         switch (c){
             case 'Y':
             {
-                tempstud = new stud[fk];
-                for(int i = 0; i<fk; i++){
+                tempstud = new stud[counter];
+                for(int i = 0; i<counter; i++){
                     tempstud[i]=obj[i];
                 }
                 delete[] obj;
-                obj = new stud[fk+1];
-                for(int z = 0; z<fk; z++){
+                obj = new stud[counter+1];
+                for(int z = 0; z<counter; z++){
                     obj[z]=tempstud[z];
                 }
                 delete[] tempstud;
 
-                cout << "Įveskite " << fk+1 << " studento vardą :  ";
-                obj[fk].vard = StringParameters(p);
-                cout << "Įveskite " << fk+1 << " studento pavardę :  ";
-                obj[fk].pav = StringParameters(p);
-                cout << "Įveskite " << fk+1 << "-o studento namų darbų pažymius ( Jei norite baigti, įveskite 11) "<<endl;
+                cout << "Įveskite " << counter+1 << " studento vardą :  ";
+                obj[counter].vard = StringParameters(obj[counter].vard);
+                cout << "Įveskite " << counter+1 << " studento pavardę :  ";
+                obj[counter].pav = StringParameters(obj[counter].pav);
+                cout << "Įveskite " << counter+1 << "-o studento namų darbų pažymius ( Jei norite baigti, įveskite 11) "<<endl;
                 bool ndCheck = true;
                 int ndcounter = 0;
                 int* tempnd = nullptr;
                 int* truend = new int[ndcounter];
-                int tempint;
                 while(ndCheck){
                     ndcounter++;
                     tempnd = new int[ndcounter-1];
@@ -106,37 +103,36 @@ void Assign(stud* obj){
                         truend[l]=tempnd[l];
                     }
                     delete[] tempnd;
-                    truend[ndcounter-1]= GradingParameters(tempint);
+                    truend[ndcounter-1]= GradingParameters(truend[ndcounter-1]);
                     if(truend[ndcounter-1] == 11){
                         ndCheck=false;
                         break;
                     }
-                    else{ cout << " Pazymys priimtas " << endl;}
                 }
-                obj[fk].nd = new int [ndcounter];
+                obj[counter].nd = new int [ndcounter];
                 for(int j = 0; j<ndcounter-1; j++){
-                    obj[fk].nd[j] = truend[j];
-                    obj[fk].vidurkis += obj[fk].nd[j];
+                    obj[counter].nd[j] = truend[j];
+                    obj[counter].vidurkis += obj[counter].nd[j];
                 }
                 delete[] truend;
-                cout << "Įveskite " << fk+1 << "-o studento egzamino rezultatą :  ";
-                obj[fk].egz = ExamParameters(obj[fk].egz);
+                cout << "Įveskite " << counter+1 << "-o studento egzamino rezultatą :  ";
+                obj[counter].egz = ExamParameters(obj[counter].egz);
                 if(ndcounter > 1){
-                    getAverage(obj, ndcounter-1, fk);
-                    getMedian(obj, ndcounter-1, fk);
+                    getAverage(obj, ndcounter-1, counter);
+                    getMedian(obj, ndcounter-1, counter);
                 }
                 else{
-                    obj[fk].vidurkis = 0.6*obj[fk].egz;
-                    obj[fk].mediana = 0.6*obj[fk].egz;
+                    obj[counter].vidurkis = 0.6*obj[counter].egz;
+                    obj[counter].mediana = 0.6*obj[counter].egz;
                 }
-                fk++;
+                counter++;
                 break;
             }
             case 'N':
             {
                 cout << " Stabdomas studentų pridėjimas... "<<endl;
                 pass = false;
-                if(fk == 0){
+                if(counter == 0){
                     cout << " Studentų informacijos nėra " << endl;
                     cout << " Programa stabdoma "<< endl;
                     exit(0);
@@ -154,11 +150,7 @@ void Assign(stud* obj){
     }
 }
 
-void Print (stud* obj){
-    int s = (int)(sizeof(*obj)/sizeof(obj[0]));
-    cout << " s = " << s << endl;
-    cout << " size1 = " << sizeof(*obj) << endl;
-    cout << " size2 = " << sizeof(obj[0]) << endl;
+void Print (stud*& obj, int counter){
     int temp;
     cout << obj[0].vard << endl;
     cout << endl << endl << " Pasirinkite galutinio rezultato pateikimo būdą : " << endl;
@@ -170,11 +162,11 @@ void Print (stud* obj){
     switch(temp){
         case (1):
         {
-            cout << left << setw(10) << "Vardas"  << setw(15) << "Pavardė" << setw(15) << left << "Galutinis (Vid.)" << endl;
-            for (int z = 0; z<50; z++){ cout << '-'; }
+            cout << left << setw(26) << "Vardas"  << setw(26) << "Pavardė" << setw(15) << left << "Galutinis (Vid.)" << endl;
+            for (int z = 0; z<70; z++){ cout << '-'; }
             cout << endl;
-            for(int i = 0; i<s; i++){
-                cout << left << setw(10) << obj[i].vard << setw(15) << obj[i].pav << setw(15) << left << fixed << setprecision(2) << obj[i].vidurkis << endl;
+            for(int i = 0; i<counter; i++){
+                cout << left << setw(26) << obj[i].vard << setw(26) << obj[i].pav << setw(15) << left << fixed << setprecision(2) << obj[i].vidurkis << endl;
             }
             break;
         }
@@ -183,15 +175,15 @@ void Print (stud* obj){
             cout << left << setw(10) << "Vardas"  << setw(15) << "Pavardė" << setw(15) << left << "Galutinis (Med.)" << endl;
             for (int z = 0; z<50; z++){ cout << '-'; }
             cout << endl;
-            for(int i = 0; i<s; i++){
-                cout << left << setw(10) << obj[i].vard << setw(15) << obj[i].pav << setw(15) << left << fixed << setprecision(2) << obj[i].mediana << endl;
+            for(int i = 0; i<counter; i++){
+                cout << left << setw(26) << obj[i].vard << setw(26) << obj[i].pav << setw(15) << left << fixed << setprecision(2) << obj[i].mediana << endl;
             }
             break;
         }
         default:
         {
             cout << " Pateikėte netinkamą simbolį, bandykite iš naujo" << endl;
-            Print(obj);
+            Print(obj, counter);
             break;
         }
     }
