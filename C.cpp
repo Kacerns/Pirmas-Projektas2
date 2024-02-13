@@ -61,39 +61,39 @@ float getMedian(stud* obj, int n, int i){
 
 void Assign(stud* obj){
     stud* tempstud = nullptr;
+    string p;
     bool pass = true;
-    int counter = 0;
+    int fk = 0;
     obj = nullptr;
+    char c = ' ';
     while(pass){
         cout << " Ar norite pridėti studentą? (Y/N) " << endl;
-        char c = ' ';
         cin >> c;
         ClearCin();
         switch (c){
             case 'Y':
             {
-                counter++;
-
-                tempstud = new stud[counter-1];
-                for(int i = 0; i<counter-1; i++){
+                tempstud = new stud[fk];
+                for(int i = 0; i<fk; i++){
                     tempstud[i]=obj[i];
                 }
                 delete[] obj;
-                obj = new stud[counter];
-                for(int z = 0; z<counter-1; z++){
+                obj = new stud[fk+1];
+                for(int z = 0; z<fk; z++){
                     obj[z]=tempstud[z];
                 }
                 delete[] tempstud;
 
-                cout << "Įveskite " << counter << " studento vardą :  ";
-                obj[counter-1].vard = StringParameters(obj[counter-1].vard);
-                cout << "Įveskite " << counter << " studento pavardę :  ";
-                obj[counter-1].pav = StringParameters(obj[counter-1].pav);
-                cout << "Įveskite " << counter << "-o studento namų darbų pažymius ( Jei norite baigti, įveskite 11) "<<endl;
+                cout << "Įveskite " << fk+1 << " studento vardą :  ";
+                obj[fk].vard = StringParameters(p);
+                cout << "Įveskite " << fk+1 << " studento pavardę :  ";
+                obj[fk].pav = StringParameters(p);
+                cout << "Įveskite " << fk+1 << "-o studento namų darbų pažymius ( Jei norite baigti, įveskite 11) "<<endl;
                 bool ndCheck = true;
                 int ndcounter = 0;
                 int* tempnd = nullptr;
                 int* truend = new int[ndcounter];
+                int tempint;
                 while(ndCheck){
                     ndcounter++;
                     tempnd = new int[ndcounter-1];
@@ -106,37 +106,37 @@ void Assign(stud* obj){
                         truend[l]=tempnd[l];
                     }
                     delete[] tempnd;
-
-                    truend[ndcounter-1]=GradingParameters(truend[ndcounter-1]);
+                    truend[ndcounter-1]= GradingParameters(tempint);
                     if(truend[ndcounter-1] == 11){
                         ndCheck=false;
                         break;
                     }
                     else{ cout << " Pazymys priimtas " << endl;}
                 }
-                obj[counter-1].nd = new int [ndcounter-1];
+                obj[fk].nd = new int [ndcounter];
                 for(int j = 0; j<ndcounter-1; j++){
-                    obj[counter-1].nd[j] = truend[j];
-                    obj[counter-1].vidurkis += obj[counter-1].nd[j];
+                    obj[fk].nd[j] = truend[j];
+                    obj[fk].vidurkis += obj[fk].nd[j];
                 }
                 delete[] truend;
-                cout << "Įveskite " << counter << "-o studento egzamino rezultatą :  ";
-                obj[counter-1].egz = ExamParameters(obj[counter-1].egz);
+                cout << "Įveskite " << fk+1 << "-o studento egzamino rezultatą :  ";
+                obj[fk].egz = ExamParameters(obj[fk].egz);
                 if(ndcounter > 1){
-                    getAverage(obj, ndcounter-1, counter-1);
-                    getMedian(obj, ndcounter-1, counter-1);
+                    getAverage(obj, ndcounter-1, fk);
+                    getMedian(obj, ndcounter-1, fk);
                 }
                 else{
-                    obj[counter-1].vidurkis = 0.6*obj[counter].egz;
-                    obj[counter-1].mediana = 0.6*obj[counter].egz;
+                    obj[fk].vidurkis = 0.6*obj[fk].egz;
+                    obj[fk].mediana = 0.6*obj[fk].egz;
                 }
+                fk++;
                 break;
             }
             case 'N':
             {
                 cout << " Stabdomas studentų pridėjimas... "<<endl;
                 pass = false;
-                if(counter == 0){
+                if(fk == 0){
                     cout << " Studentų informacijos nėra " << endl;
                     cout << " Programa stabdoma "<< endl;
                     exit(0);
