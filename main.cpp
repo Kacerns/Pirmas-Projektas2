@@ -54,7 +54,7 @@ float getMedian(stud* obj, int n, int i){
         obj[i].mediana = obj[i].mediana*0.4;
     }
     else{
-        int temp = ((float)n/2)-0.5;
+        int temp = ((float)n/2)+0.5;
         obj[i].mediana = obj[i].nd[temp];
         obj[i].mediana = obj[i].mediana*0.4;
     }

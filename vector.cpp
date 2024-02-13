@@ -3,21 +3,22 @@
 #include <string>
 #include <ios>
 #include <limits>
+#include <vector>
 
 using namespace std;
 
 struct stud{
     string vard, pav;
-    int* nd = nullptr; 
+    vector<int> nd; 
     int egz = 0;
     float vidurkis = 0;
     float mediana = 0;
 };
 
-void Assign(stud*& obj, int& counter);
-float getAverage(stud*& obj, int n, int i);
-float getMedian(stud*& obj, int n, int i);
-void Print (stud*& obj, int counter);
+void Assign(vector<stud> &obj);
+float getAverage(vector<stud> &obj, int n, int i);
+float getMedian(vector<stud> &obj, int n, int i);
+void Print (vector<stud> &obj);
 int StartParameters(int p);
 string StringParameters(string str);
 int GradingParameters(int p);
@@ -25,45 +26,41 @@ int ExamParameters(int p);
 void ClearCin();
 
 int main(){
-    stud *obj = nullptr;
-    int counter = 0;
-
-    Assign(obj, counter);
-    Print(obj, counter);
-    delete[] obj;
+    vector<stud> obj;
+    Assign(obj);
+    Print(obj);
     return 0;
 
 }
 
-float getAverage(stud*& obj, int n, int i){
-    obj[i].vidurkis = obj[i].vidurkis/n;
-    obj[i].vidurkis = obj[i].vidurkis * 0.4;
-    obj[i].vidurkis = (float)obj[i].egz * 0.6 + obj[i].vidurkis;
-    return obj[i].vidurkis;
+float getAverage(vector<stud> &obj, int s, int i){
+    obj.at(i).vidurkis = obj.at(i).vidurkis/s;
+    obj.at(i).vidurkis = obj.at(i).vidurkis * 0.4;
+    obj.at(i).vidurkis = (float)obj.at(i).egz * 0.6 + obj.at(i).vidurkis;
+    return obj.at(i).vidurkis;
 }
 
-float getMedian(stud*& obj, int n, int i){
-    if(n%2==0){
-        for(int med = (n/2)-1; med<=(n/2); med++){
-            obj[i].mediana+= obj[i].nd[med];
+float getMedian(vector<stud> &obj, int s, int i){
+    if(s%2==0){
+        for(int med = (s/2)-1; med<=(s/2); med++){
+            obj.at(i).mediana+= obj.at(i).nd.at(med);
         }
-        obj[i].mediana = obj[i].mediana/2;
-        obj[i].mediana = obj[i].mediana*0.4;
+        obj.at(i).mediana = obj.at(i).mediana/2;
+        obj.at(i).mediana = obj.at(i).mediana*0.4;
     }
     else{
-        int temp = ((float)n/2)+0.5;
-        obj[i].mediana = obj[i].nd[temp];
-        obj[i].mediana = obj[i].mediana*0.4;
+        int temp = ((float)s/2)+0.5;
+        obj.at(i).mediana = obj.at(i).nd.at(temp);
+        obj.at(i).mediana = obj.at(i).mediana*0.4;
     }
-    obj[i].mediana = (float)obj[i].egz * 0.6 + obj[i].mediana;
-    return obj[i].mediana;
+    obj.at(i).mediana = (float)obj.at(i).egz * 0.6 + obj.at(i).mediana;
+    return obj.at(i).mediana;
 }
 
-void Assign(stud*& obj, int& counter){
-    stud* tempstud = nullptr;
+void Assign(vector<stud> &obj){
     bool pass = true;
-    obj = nullptr;
     char c = ' ';
+    int counter = 0;
     while(pass){
         cout << " Ar norite pridėti studentą? (Y/N) " << endl;
         cin >> c;
@@ -71,59 +68,37 @@ void Assign(stud*& obj, int& counter){
         switch (c){
             case 'Y':
             {
-                tempstud = new stud[counter];
-                for(int i = 0; i<counter; i++){
-                    tempstud[i]=obj[i];
-                }
-                delete[] obj;
-                obj = new stud[counter+1];
-                for(int z = 0; z<counter; z++){
-                    obj[z]=tempstud[z];
-                }
-                delete[] tempstud;
-
+                obj.resize(counter+1);
                 cout << "Įveskite " << counter+1 << " studento vardą :  ";
-                obj[counter].vard = StringParameters(obj[counter].vard);
+                obj.at(counter).vard = StringParameters(obj.at(counter).vard);
                 cout << "Įveskite " << counter+1 << " studento pavardę :  ";
-                obj[counter].pav = StringParameters(obj[counter].pav);
+                obj.at(counter).pav = StringParameters(obj.at(counter).pav);
                 cout << "Įveskite " << counter+1 << "-o studento namų darbų pažymius ( Jei norite baigti, įveskite 11) "<<endl;
                 bool ndCheck = true;
-                int ndcounter = 0;
-                int* tempnd = nullptr;
-                int* truend = new int[ndcounter];
+                int tempgrade = 0;
                 while(ndCheck){
-                    ndcounter++;
-                    tempnd = new int[ndcounter-1];
-                    for(int k = 0; k<ndcounter-1; k++){
-                        tempnd[k]=truend[k];
-                    }
-                    delete[] truend;
-                    truend = new int[ndcounter];
-                    for(int l = 0; l<ndcounter-1; l++){
-                        truend[l]=tempnd[l];
-                    }
-                    delete[] tempnd;
-                    truend[ndcounter-1]= GradingParameters(truend[ndcounter-1]);
-                    if(truend[ndcounter-1] == 11){
+                    tempgrade = GradingParameters(tempgrade);
+                    if(tempgrade == 11){
                         ndCheck=false;
                         break;
                     }
+                    else{
+                        obj.at(counter).nd.push_back(tempgrade);
+                    }
                 }
-                obj[counter].nd = new int [ndcounter];
-                for(int j = 0; j<ndcounter-1; j++){
-                    obj[counter].nd[j] = truend[j];
-                    obj[counter].vidurkis += obj[counter].nd[j];
+                int s = obj.at(counter).nd.size();
+                for(const int& i : obj.at(counter).nd){
+                    obj.at(counter).vidurkis += i;
                 }
-                delete[] truend;
                 cout << "Įveskite " << counter+1 << "-o studento egzamino rezultatą :  ";
-                obj[counter].egz = ExamParameters(obj[counter].egz);
-                if(ndcounter > 1){
-                    getAverage(obj, ndcounter-1, counter);
-                    getMedian(obj, ndcounter-1, counter);
+                obj.at(counter).egz = ExamParameters(obj.at(counter).egz);
+                if(s > 1){
+                    getAverage(obj, s, counter);
+                    getMedian(obj, s, counter);
                 }
                 else{
-                    obj[counter].vidurkis = 0.6*obj[counter].egz;
-                    obj[counter].mediana = 0.6*obj[counter].egz;
+                    obj.at(counter).vidurkis = 0.6*obj.at(counter).egz;
+                    obj.at(counter).mediana = 0.6*obj.at(counter).egz;
                 }
                 counter++;
                 break;
@@ -150,8 +125,9 @@ void Assign(stud*& obj, int& counter){
     }
 }
 
-void Print (stud*& obj, int counter){
+void Print (vector<stud> &obj){
     int temp;
+    int s = obj.size();
     cout << endl << endl << " Pasirinkite galutinio rezultato pateikimo būdą : " << endl;
     cout << " (1) Namų darbų vidurkis. " << endl; 
     cout << " (2) Namų darbų mediana." << endl;
@@ -164,8 +140,8 @@ void Print (stud*& obj, int counter){
             cout << left << setw(26) << "Vardas"  << setw(26) << "Pavardė" << setw(15) << left << "Galutinis (Vid.)" << endl;
             for (int z = 0; z<70; z++){ cout << '-'; }
             cout << endl;
-            for(int i = 0; i<counter; i++){
-                cout << left << setw(26) << obj[i].vard << setw(26) << obj[i].pav << setw(15) << left << fixed << setprecision(2) << obj[i].vidurkis << endl;
+            for(int i = 0; i<s; i++){
+                cout << left << setw(26) << obj.at(i).vard << setw(26) << obj.at(i).pav << setw(15) << left << fixed << setprecision(2) << obj.at(i).vidurkis << endl;
             }
             break;
         }
@@ -174,15 +150,15 @@ void Print (stud*& obj, int counter){
             cout << left << setw(10) << "Vardas"  << setw(15) << "Pavardė" << setw(15) << left << "Galutinis (Med.)" << endl;
             for (int z = 0; z<50; z++){ cout << '-'; }
             cout << endl;
-            for(int i = 0; i<counter; i++){
-                cout << left << setw(26) << obj[i].vard << setw(26) << obj[i].pav << setw(15) << left << fixed << setprecision(2) << obj[i].mediana << endl;
+            for(int i = 0; i<s; i++){
+                cout << left << setw(26) << obj.at(i).vard << setw(26) << obj.at(i).pav << setw(15) << left << fixed << setprecision(2) << obj.at(i).mediana << endl;
             }
             break;
         }
         default:
         {
             cout << " Pateikėte netinkamą simbolį, bandykite iš naujo" << endl;
-            Print(obj, counter);
+            Print(obj);
             break;
         }
     }
