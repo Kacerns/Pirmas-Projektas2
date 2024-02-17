@@ -4,6 +4,9 @@
 #include <ios>
 #include <limits>
 #include <vector>
+#include <algorithm>
+#include <random>
+#include <chrono>
 
 using namespace std;
 
@@ -11,8 +14,8 @@ struct stud{
     string vard, pav;
     vector<int> nd; 
     int egz = 0;
-    float vidurkis = 0;
-    float mediana = 0;
+    float FinalAverage = 0;
+    float median = 0;
 };
 
 void Assign(vector<stud> &obj);
@@ -21,10 +24,10 @@ float getMedian(vector<stud> &obj, int n, int i);
 void RandomGrades(vector<stud> &obj, int counter);
 void RandomNames(vector<stud> &obj, int counter);
 void Print (vector<stud> &obj);
-int StartParameters(int p);
-string StringParameters(string str);
-int GradingParameters(int p);
-int ExamParameters(int p);
+int StartParameters();
+string StringParameters();
+int GradingParameters();
+int ExamParameters();
 void ClearCin();
 
 vector <string> Names {"Audrius", "Edvard", "Ganesh", "Nojus", "Cleophas", "Rodrigo","Jurgita", "Ugne", "Tatiana", "Sarah"};
@@ -32,6 +35,7 @@ vector <string> Surnames{"Czerniewicz", "Finch", "Hummel", "McKowen", "Warszawsk
 
 int main(){
     vector<stud> obj;
+
     Assign(obj);
     Print(obj);
     return 0;
@@ -39,44 +43,51 @@ int main(){
 }
 
 float getAverage(vector<stud> &obj, int s, int i){
-    obj.at(i).vidurkis = obj.at(i).vidurkis/s;
-    obj.at(i).vidurkis = obj.at(i).vidurkis * 0.4;
-    obj.at(i).vidurkis = (float)obj.at(i).egz * 0.6 + obj.at(i).vidurkis;
-    return obj.at(i).vidurkis;
+    obj.at(i).FinalAverage = obj.at(i).FinalAverage/s;
+    obj.at(i).FinalAverage = obj.at(i).FinalAverage * 0.4;
+    obj.at(i).FinalAverage = (float)obj.at(i).egz * 0.6 + obj.at(i).FinalAverage;
+    return obj.at(i).FinalAverage;
 }
 
 float getMedian(vector<stud> &obj, int s, int i){
     if(s%2==0){
         for(int med = (s/2)-1; med<=(s/2); med++){
-            obj.at(i).mediana+= obj.at(i).nd.at(med);
+            obj.at(i).median+= obj.at(i).nd.at(med);
         }
-        obj.at(i).mediana = obj.at(i).mediana/2;
-        obj.at(i).mediana = obj.at(i).mediana*0.4;
+        obj.at(i).median = obj.at(i).median/2;
+        obj.at(i).median = obj.at(i).median*0.4;
     }
     else{
         int temp = ((float)s/2)+0.5;
-        obj.at(i).mediana = obj.at(i).nd.at(temp);
-        obj.at(i).mediana = obj.at(i).mediana*0.4;
+        obj.at(i).median = obj.at(i).nd.at(temp);
+        obj.at(i).median = obj.at(i).median*0.4;
     }
-    obj.at(i).mediana = (float)obj.at(i).egz * 0.6 + obj.at(i).mediana;
-    return obj.at(i).mediana;
+    obj.at(i).median = (float)obj.at(i).egz * 0.6 + obj.at(i).median;
+    return obj.at(i).median;
 }
 
 void RandomGrades(vector<stud> &obj, int counter){
+    unsigned seed = chrono::system_clock::now().time_since_epoch().count();
+    mt19937 rng(seed);
     cout << " Generuojami pažymiai... " << endl;
-    int ndcounter = rand() % 100 + 1;
-    obj.at(counter).egz = rand() % 10;
+    int ndcounter = 10;
+    uniform_int_distribution<int> dist(1, 10);
+    obj.at(counter).egz = dist(rng);
     for(int i = 0; i<ndcounter; i++){
-        obj.at(counter).nd.push_back(rand() % 10);
-        obj.at(counter).vidurkis += obj.at(counter).nd.back();
+        obj.at(counter).nd.push_back(dist(rng));
+        obj.at(counter).FinalAverage += obj.at(counter).nd.back();
     }
     cout << " Pažymiai sugeneruoti " << endl;
 }
 
 void RandomNames(vector<stud> &obj, int counter){
+    unsigned seed = chrono::system_clock::now().time_since_epoch().count();
+    mt19937 rng(seed);
     cout << " Generuojami vardai... " << endl;
-    obj.at(counter).vard = Names.at(rand() % Names.size());
-    obj.at(counter).pav = Surnames.at(rand() % Surnames.size());
+    uniform_int_distribution<int> distNames(1, Names.size()-1);
+    uniform_int_distribution<int> distSurNames(1, Surnames.size()-1);
+    obj.at(counter).vard = Names.at(distNames(rng));
+    obj.at(counter).pav = Surnames.at(distSurNames(rng));
     cout << " Vardai sugeneruoti " << endl;
 }
 
@@ -105,14 +116,14 @@ void Assign(vector<stud> &obj){
                     case (1):{
                         obj.resize(counter+1);
                         cout << "Įveskite " << counter+1 << " studento vardą :  ";
-                        obj.at(counter).vard = StringParameters(obj.at(counter).vard);
+                        obj.at(counter).vard = StringParameters();
                         cout << "Įveskite " << counter+1 << " studento pavardę :  ";
-                        obj.at(counter).pav = StringParameters(obj.at(counter).pav);
+                        obj.at(counter).pav = StringParameters();
                         cout << "Įveskite " << counter+1 << "-o studento namų darbų pažymius ( Jei norite baigti, įveskite 11) "<<endl;
                         bool ndCheck = true;
                         int tempgrade = 0;
                         while(ndCheck){
-                            tempgrade = GradingParameters(tempgrade);
+                            tempgrade = GradingParameters();
                             if(tempgrade == 11){
                                 ndCheck=false;
                                 break;
@@ -123,17 +134,17 @@ void Assign(vector<stud> &obj){
                         }
                         int s = obj.at(counter).nd.size();
                         for(const int& i : obj.at(counter).nd){
-                            obj.at(counter).vidurkis += i;
+                            obj.at(counter).FinalAverage += i;
                         }
                         cout << "Įveskite " << counter+1 << "-o studento egzamino rezultatą :  ";
-                        obj.at(counter).egz = ExamParameters(obj.at(counter).egz);
+                        obj.at(counter).egz = ExamParameters();
                         if(s > 1){
                             getAverage(obj, s, counter);
                             getMedian(obj, s, counter);
                         }
                         else{
-                            obj.at(counter).vidurkis = 0.6*obj.at(counter).egz;
-                            obj.at(counter).mediana = 0.6*obj.at(counter).egz;
+                            obj.at(counter).FinalAverage = 0.6*obj.at(counter).egz;
+                            obj.at(counter).median = 0.6*obj.at(counter).egz;
                         }
                         counter++;
                         break;
@@ -141,9 +152,9 @@ void Assign(vector<stud> &obj){
                     case (2):{
                         obj.resize(counter+1);
                         cout << "Įveskite " << counter+1 << " studento vardą :  ";
-                        obj.at(counter).vard = StringParameters(obj.at(counter).vard);
+                        obj.at(counter).vard = StringParameters();
                         cout << "Įveskite " << counter+1 << " studento pavardę :  ";
-                        obj.at(counter).pav = StringParameters(obj.at(counter).pav);
+                        obj.at(counter).pav = StringParameters();
                         RandomGrades(obj, counter);
                         int s = obj.at(counter).nd.size();
                         getAverage(obj, s, counter);
@@ -206,6 +217,7 @@ void Print (vector<stud> &obj){
     cout << " (2) Namų darbų mediana." << endl;
 
     cin >> temp;
+    ClearCin();
 
     switch(temp){
         case (1):
@@ -214,7 +226,7 @@ void Print (vector<stud> &obj){
             for (int z = 0; z<70; z++){ cout << '-'; }
             cout << endl;
             for(int i = 0; i<s; i++){
-                cout << left << setw(26) << obj.at(i).vard << setw(26) << obj.at(i).pav << setw(15) << left << fixed << setprecision(2) << obj.at(i).vidurkis << endl;
+                cout << left << setw(26) << obj.at(i).vard << setw(26) << obj.at(i).pav << setw(15) << left << fixed << setprecision(2) << obj.at(i).FinalAverage << endl;
             }
             break;
         }
@@ -224,7 +236,7 @@ void Print (vector<stud> &obj){
             for (int z = 0; z<50; z++){ cout << '-'; }
             cout << endl;
             for(int i = 0; i<s; i++){
-                cout << left << setw(26) << obj.at(i).vard << setw(26) << obj.at(i).pav << setw(15) << left << fixed << setprecision(2) << obj.at(i).mediana << endl;
+                cout << left << setw(26) << obj.at(i).vard << setw(26) << obj.at(i).pav << setw(15) << left << fixed << setprecision(2) << obj.at(i).median << endl;
             }
             break;
         }
@@ -238,60 +250,65 @@ void Print (vector<stud> &obj){
     
 }
 
-int StartParameters(int p){
-    cin >> p;
-    string str = to_string(p);
-    for(char c : str){
-        if(p <=0 || !(isdigit(c)) || cin.fail() || isblank(c)){
-            ClearCin();
-            cout << " Netinkamas įvesties formatas, bandykite dar kartą :   " << endl;
-            return StartParameters(p);
-        }
+int StartParameters(){
+    string p;
+    getline(cin,p);
+    int num = stoi(p);
+    if (cin.fail()) {
+        ClearCin();
+        return StartParameters();
     }
-    ClearCin();
+    while (p.empty() || num <=0 || any_of(p.begin(), p.end(), [](char c) { return !(isdigit(c)) || isspace(c); })) {
+        cout << " Netinkamas įvesties formatas, bandykite dar kartą(patikrinkite ar nėra tarpų arba raidžių) :   ";
+        getline(cin, p);
+    }
+    return num;
+}
+
+string StringParameters(){
+    string p;
+    getline(cin, p);
+
+    if (cin.fail()) {
+        ClearCin();
+        return StringParameters();
+    }
+    while (p.empty() || p.size() > 25 || any_of(p.begin(), p.end(), [](char c) { return isdigit(c) || isspace(c); })) {
+        cout << " Netinkamas įvesties formatas, bandykite dar kartą(patikrinkite ar nėra tarpų arba skaičių) :   ";
+        getline(cin, p);
+    }
     return p;
 }
 
-string StringParameters(string p){
-    cin >> p;
-    for(char c : p){
-        if(isdigit(c) || cin.fail() || p.size()>25 || isblank(c)){
-            ClearCin();
-            cout << " Netinkamas įvesties formatas, bandykite dar kartą :   " << endl;
-            return StringParameters(p);
-        }
+
+int GradingParameters(){
+    string p;
+    getline(cin,p);
+    int num = stoi(p);
+    if (cin.fail()) {
+        ClearCin();
+        return GradingParameters();
     }
-    ClearCin();
-    return p;
+    while (p.empty() || num <0 || num > 11 || any_of(p.begin(), p.end(), [](char c) { return !(isdigit(c)) || isspace(c); })) {
+        cout << " Netinkamas įvesties formatas, bandykite dar kartą(patikrinkite ar nėra tarpų arba raidžių) :   ";
+        getline(cin, p);
+    }
+    return num;
 }
 
-
-int GradingParameters(int p){
-    cin >> p;
-    string str = to_string(p);
-    for(char c : str){
-        if(p < 0 || p > 11 || !(isdigit(c)) || cin.fail() || isblank(c)){
-            ClearCin();
-            cout << " Netinkamas įvesties formatas, bandykite dar kartą :   " << endl;
-            return GradingParameters(p);
-        }
+int ExamParameters(){
+    string p;
+    getline(cin,p);
+    int num = stoi(p);
+    if (cin.fail()) {
+        ClearCin();
+        return GradingParameters();
     }
-    ClearCin();
-    return p;
-}
-
-int ExamParameters(int p){
-    cin >> p;
-    string str = to_string(p);
-    for(char c : str){
-        if(p < 0 || p > 10 || !(isdigit(c)) || cin.fail() || isblank(c)){
-            ClearCin();
-            cout << " Netinkamas įvesties formatas, bandykite dar kartą :   " << endl;
-            return ExamParameters(p);
-        }
+    while (p.empty() || num <0 || num > 10 || any_of(p.begin(), p.end(), [](char c) { return !(isdigit(c)) || isspace(c); })) {
+        cout << " Netinkamas įvesties formatas, bandykite dar kartą(patikrinkite ar nėra tarpų arba raidžių) :   ";
+        getline(cin, p);
     }
-    ClearCin();
-    return p;
+    return num;
 }
 
 void ClearCin(){
