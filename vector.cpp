@@ -24,7 +24,7 @@ float getAverage(vector<stud> &obj, int n, int i);
 float getMedian(vector<stud> &obj, int n, int i);
 void RandomGrades(vector<stud> &obj, int counter, int ndcounter);
 void RandomNames(vector<stud> &obj, int counter);
-void Print (vector<stud> &obj);
+void Print (vector<stud> &obj, bool countByAvg);
 int StartParameters();
 string StringParameters();
 int GradingParameters();
@@ -32,7 +32,15 @@ int ExamParameters();
 void ClearCin();
 
 void readFile(vector<stud> &obj, const string filename);
-void PrintFile(vector<stud> &obj);
+void PrintFile(vector<stud> &obj, bool countByAvg);
+
+void sorting(vector<stud>& obj, bool option);
+bool compareName(const stud& a, const stud& b);
+bool compareSurname(const stud& a, const stud& b);
+bool compareMedian(const stud& a, const stud& b);
+bool compareAverage(const stud& a, const stud& b);
+
+
 
 vector <string> Names {"Audrius", "Edvard", "Ganesh", "Nojus", "Cleophas", "Rodrigo","Jurgita", "Ugne", "Tatiana", "Sarah"};
 vector <string> Surnames {"Czerniewicz", "Finch", "Hummel", "McKowen", "Warszawski", "Clery", "Wilbur", "Kennedy", "Nixon", "Obama"};
@@ -68,11 +76,34 @@ int main(){
         }
     }
     }
+    pass = true;
+    bool countByAvg;
+    while(pass){
+    cout << " Pasrinkite galutinio balo skaičiavimo būdą: " << endl;
+    cout << " (1) Pagal vidurkį " << endl; 
+    cout << " (2) Pagal medianą " << endl;
+    cin >> option;
+    ClearCin();
+    switch (option){
+        case 1 :{
+            countByAvg = true;
+            pass = false;
+            break;
+        }
+        case 2 :{
+            countByAvg = false;
+            pass = false;
+            break;
+        }
+        default:{
+            cout << " Netinkamas įvesties formatas, bandykite dar kartą :   " << endl;
+            break;
+        }
+    }
+    }
 
     pass = true;
-
     while(pass){
-
     cout << " Pasrinkite duomenų spausdinimo būdą: " << endl;
     cout << " (1) Duomenis spausdinti į failą. (Rekomenduojama dideliems kiekiams duomenų) " << endl; 
     cout << " (2) Duomenis spausdinti programoje. " << endl;
@@ -81,12 +112,12 @@ int main(){
 
     switch (option){
         case 1 :{
-            PrintFile(obj);
+            PrintFile(obj, countByAvg);
             pass = false;
             break;
         }
         case 2 :{
-            Print(obj);
+            Print(obj, countByAvg);
             pass = false;
             break;
         }
@@ -324,7 +355,7 @@ void Assign(vector<stud> &obj){
 }
 
 
-void Print (vector<stud> &obj){
+void Print (vector<stud> &obj, bool countByAvg){
     int temp;
     bool pass = true;
     int s = obj.size();
@@ -513,7 +544,7 @@ void readFile(vector<stud> &obj, const string filename){
     ifstream fclose(filename);
 }
 
-void PrintFile(vector<stud> &obj){
+void PrintFile(vector<stud> &obj, bool countByAvg){
 
     ofstream PrintOut("output.txt");
     if (!PrintOut.is_open())
@@ -574,5 +605,50 @@ void PrintFile(vector<stud> &obj){
     }
 
     PrintOut.close();
+}
+
+bool compareName(const stud& a, const stud& b) {
+    return a.vard < b.vard;
+}
+bool compareSurname(const stud& a, const stud& b) {
+    return a.pav < b.pav;
+}
+bool compareMedian(const stud& a, const stud& b) {
+    return a.median < b.median;
+}
+bool compareAverage(const stud& a, const stud& b) {
+    return a.FinalAverage < b.FinalAverage;
+}
+
+void sorting(vector<stud>& obj, bool countByAvg) {
+    int option;
+    bool end = false;
+    while (!end) {
+        cout << "1 - rikiuoti pagal vardą, 2 - rikiuoti pagal pavardę, 3 - rikiuoti pagal pažymį" << endl;
+        cin >> option;
+        ClearCin();
+
+        switch (option) {
+            case (1):{
+                sort(obj.begin(), obj.end(), compareName);
+                end = true;
+                break;
+            }
+            case (2):{
+                sort(obj.begin(), obj.end(), compareSurname);
+                end = true;
+                break;
+            }
+            case (3):{
+                sort(obj.begin(), obj.end(), countByAvg ? compareAverage : compareMedian);
+                end = true;
+                break;
+            }
+            default:{
+                cout << " Pateikėte netinkamą simbolį, bandykite iš naujo" << endl;
+                break;
+            }
+        }
+    }
 }
 
