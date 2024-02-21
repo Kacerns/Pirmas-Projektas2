@@ -7,6 +7,8 @@
 #include <random>
 #include <chrono>
 
+#include <fstream>
+
 using namespace std;
 
 struct stud{
@@ -29,11 +31,15 @@ int GradingParameters();
 int ExamParameters();
 void ClearCin();
 
+void readFile(vector<stud> &obj, const string filename);
+
 vector <string> Names {"Audrius", "Edvard", "Ganesh", "Nojus", "Cleophas", "Rodrigo","Jurgita", "Ugne", "Tatiana", "Sarah"};
 vector <string> Surnames {"Czerniewicz", "Finch", "Hummel", "McKowen", "Warszawski", "Clery", "Wilbur", "Kennedy", "Nixon", "Obama"};
 
 int main(){
     vector<stud> obj;
+    string filename = "kursiokai.txt";
+    readFile(obj, filename);
 
     Assign(obj);
     Print(obj);
@@ -294,13 +300,13 @@ void Print (vector<stud> &obj){
 }
 
 int StartParameters(){
-     string p;
+    string p;
     getline(cin,p);
     if (cin.fail()) {
         ClearCin();
         return StartParameters();
     }
-    while(p.empty(),any_of(p.begin(), p.end(), [](char c) { return !(isdigit(c)) || isspace(c); })){
+    while(p.empty() || any_of(p.begin(), p.end(), [](char c) { return !(isdigit(c)) || isspace(c); })){
         cout << " Netinkamas įvesties formatas, bandykite dar kartą(patikrinkite ar nėra tarpų arba raidžių) :   ";
         getline(cin, p);
     }
@@ -334,7 +340,7 @@ int GradingParameters(){
         ClearCin();
         return GradingParameters();
     }
-    while(p.empty(),any_of(p.begin(), p.end(), [](char c) { return !(isdigit(c)) || isspace(c); })){
+    while(p.empty() || any_of(p.begin(), p.end(), [](char c) { return !(isdigit(c)) || isspace(c); })){
         cout << " Netinkamas įvesties formatas, bandykite dar kartą(patikrinkite ar nėra tarpų arba raidžių) :   ";
         getline(cin, p);
     }
@@ -353,7 +359,7 @@ int ExamParameters(){
         ClearCin();
         return ExamParameters();
     }
-    while(p.empty(),any_of(p.begin(), p.end(), [](char c) { return !(isdigit(c)) || isspace(c); })){
+    while(p.empty() || any_of(p.begin(), p.end(), [](char c) { return !(isdigit(c)) || isspace(c); })){
         cout << " Netinkamas įvesties formatas, bandykite dar kartą(patikrinkite ar nėra tarpų arba raidžių) :   ";
         getline(cin, p);
     }
@@ -366,6 +372,68 @@ int ExamParameters(){
 }
 
 void ClearCin(){
+
     cin.clear();
     cin.ignore(numeric_limits<streamsize>::max(), '\n');
+}
+
+//V.0.2
+
+void readFile(vector<stud> &obj, const string filename){
+
+    int s = 0;
+    int counter = 0;
+
+    ifstream file(filename);
+    if (!file.is_open()){
+
+        cerr << "Error: Unable to open file " << filename << endl;
+        exit(0);
+
+    }
+    string line;
+    getline(file, line);
+
+    while (getline(file, line)){
+        obj.resize(counter+1);
+        istringstream iss(line);
+        if (!(iss >> obj.at(counter).vard >> obj.at(counter).pav)){
+
+            cerr << "Error reading student name and surname from file " << filename << endl;
+            continue;
+        }
+
+        int number;
+
+        while (iss >> number){
+
+            obj.at(counter).nd.push_back(number);
+            obj.at(counter).FinalAverage += number;
+        }
+
+        if (obj.at(counter).nd.empty()){
+
+            cerr << "Error: No grades found for student in file " << filename << endl;
+            continue;
+        }
+
+        obj.at(counter).egz = obj.at(counter).nd.back();
+        obj.at(counter).nd.pop_back();
+        obj.at(counter).FinalAverage -= obj.at(counter).egz;
+        s = obj.at(counter).nd.size();
+
+        if(s >= 1){
+
+            getAverage(obj, s, counter);
+            getMedian(obj, s, counter);
+
+        }
+        else{
+
+            obj.at(counter).FinalAverage = 0.6*obj.at(counter).egz;
+            obj.at(counter).median = 0.6*obj.at(counter).egz;
+
+        }
+        counter++;
+    }
 }
