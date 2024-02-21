@@ -102,6 +102,8 @@ int main(){
     }
     }
 
+    sorting(obj, countByAvg);
+
     pass = true;
     while(pass){
     cout << " Pasrinkite duomenų spausdinimo būdą: " << endl;
@@ -356,54 +358,23 @@ void Assign(vector<stud> &obj){
 
 
 void Print (vector<stud> &obj, bool countByAvg){
-    int temp;
-    bool pass = true;
     int s = obj.size();
 
-    while(pass){
-    
-    cout << endl << endl << " Pasirinkite galutinio rezultato pateikimo būdą : " << endl;
-    cout << " (1) Namų darbų vidurkis. " << endl; 
-    cout << " (2) Namų darbų mediana." << endl;
-    cout << " (3) Baigti darbą " << endl;
-
-    cin >> temp;
-    ClearCin();
-
-    switch(temp){
-        case (1):
-        {
-
-            cout << left << setw(26) << "Vardas"  << setw(26) << "Pavardė" << setw(15) << left << "Galutinis (Vid.)" << endl;
-            for (int z = 0; z<70; z++){ cout << '-'; }
-            cout << endl;
-            for(int i = 0; i<s; i++){
-                cout << left << setw(26) << obj.at(i).vard << setw(26) << obj.at(i).pav << setw(15) << left << fixed << setprecision(2) << obj.at(i).FinalAverage << endl;
-            }
-            break;
-        }
-        case (2):
-        {
-            cout << left << setw(26) << "Vardas"  << setw(26) << "Pavardė" << setw(15) << left << "Galutinis (Med.)" << endl;
-            for (int z = 0; z<70; z++){ cout << '-'; }
-            cout << endl;
-            for(int i = 0; i<s; i++){
-                cout << left << setw(26) << obj.at(i).vard << setw(26) << obj.at(i).pav << setw(15) << left << fixed << setprecision(2) << obj.at(i).median << endl;
-            }
-            break;
-        }
-        case (3):
-        {
-            cout << " Programos darbas baigiamas " << endl;
-            exit(0);
-            break;
-        }
-        default:
-        {
-            cout << " Pateikėte netinkamą simbolį, bandykite iš naujo" << endl;
-            break;
+    if(countByAvg){
+        cout << left << setw(26) << "Vardas"  << setw(26) << "Pavardė" << setw(15) << left << "Galutinis (Vid.)" << endl;
+        for (int z = 0; z<70; z++){ cout << '-'; }
+        cout << endl;
+        for(int i = 0; i<s; i++){
+            cout << left << setw(26) << obj.at(i).vard << setw(26) << obj.at(i).pav << setw(15) << left << fixed << setprecision(2) << obj.at(i).FinalAverage << endl;
         }
     }
+    else{
+        cout << left << setw(26) << "Vardas"  << setw(26) << "Pavardė" << setw(15) << left << "Galutinis (Med.)" << endl;
+        for (int z = 0; z<70; z++){ cout << '-'; }
+        cout << endl;
+        for(int i = 0; i<s; i++){
+            cout << left << setw(26) << obj.at(i).vard << setw(26) << obj.at(i).pav << setw(15) << left << fixed << setprecision(2) << obj.at(i).median << endl;
+        }
     }
 }
 
@@ -553,57 +524,24 @@ void PrintFile(vector<stud> &obj, bool countByAvg){
         return;
     }
 
-    int temp;
-    bool pass = true;
     int s = obj.size();
 
-    while(pass){
-    
-    cout << endl << endl << " Pasirinkite galutinio rezultato pateikimo būdą : " << endl;
-    cout << " (1) Namų darbų vidurkis. " << endl; 
-    cout << " (2) Namų darbų mediana." << endl;
-    cout << " (3) Baigti darbą " << endl;
-
-    cin >> temp;
-    ClearCin();
-
-    switch(temp){
-        case (1):
-        {
-            PrintOut << left << setw(26) << "Vardas"  << setw(26) << "Pavardė" << setw(15) << left << "Galutinis (Vid.)" << endl;
-            for (int z = 0; z<70; z++){ PrintOut << '-'; }
-            PrintOut << endl;
-            for(int i = 0; i<s; i++){
-                PrintOut << left << setw(26) << obj.at(i).vard << setw(26) << obj.at(i).pav << setw(15) << left << fixed << setprecision(2) << obj.at(i).FinalAverage << endl;
-            }
-            pass = false;
-            break;
-        }
-        case (2):
-        {
-            PrintOut << left << setw(26) << "Vardas"  << setw(26) << "Pavardė" << setw(15) << left << "Galutinis (Med.)" << endl;
-            for (int z = 0; z<70; z++){ PrintOut << '-'; }
-            PrintOut << endl;
-            for(int i = 0; i<s; i++){
-                PrintOut << left << setw(26) << obj.at(i).vard << setw(26) << obj.at(i).pav << setw(15) << left << fixed << setprecision(2) << obj.at(i).median << endl;
-            }
-            pass = false;
-            break;
-        }
-        case (3):
-        {
-            cout << " Programos darbas baigiamas " << endl;
-            exit(0);
-            break;
-        }
-        default:
-        {
-            cout << " Pateikėte netinkamą simbolį, bandykite iš naujo" << endl;
-            break;
+    if(countByAvg){
+        PrintOut << left << setw(26) << "Vardas"  << setw(26) << "Pavardė" << setw(15) << left << "Galutinis (Vid.)" << endl;
+        for (int z = 0; z<70; z++){ PrintOut << '-'; }
+        PrintOut << endl;
+        for(int i = 0; i<s; i++){
+            PrintOut << left << setw(26) << obj.at(i).vard << setw(26) << obj.at(i).pav << setw(15) << left << fixed << setprecision(2) << obj.at(i).FinalAverage << endl;
         }
     }
+    else{
+        PrintOut << left << setw(26) << "Vardas"  << setw(26) << "Pavardė" << setw(15) << left << "Galutinis (Med.)" << endl;
+        for (int z = 0; z<70; z++){ PrintOut << '-'; }
+        PrintOut << endl;
+        for(int i = 0; i<s; i++){
+            PrintOut << left << setw(26) << obj.at(i).vard << setw(26) << obj.at(i).pav << setw(15) << left << fixed << setprecision(2) << obj.at(i).median << endl;
+        }
     }
-
     PrintOut.close();
 }
 
@@ -624,7 +562,8 @@ void sorting(vector<stud>& obj, bool countByAvg) {
     int option;
     bool end = false;
     while (!end) {
-        cout << "1 - rikiuoti pagal vardą, 2 - rikiuoti pagal pavardę, 3 - rikiuoti pagal pažymį" << endl;
+        cout << "Pasirinkite duomenų rikiavimo būdą: "<<endl;
+        cout << "(1) rikiuoti pagal vardą." << endl << "(2) rikiuoti pagal pavardę" << endl <<  "(3) rikiuoti pagal pažymį" << endl;
         cin >> option;
         ClearCin();
 
