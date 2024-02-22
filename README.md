@@ -7,7 +7,7 @@ Finalgrade = 0.4 * average/median + 0.6 * examGrade
 
 vector.cpp uses vectors and C.cpp uses dynamic arrays
 
-vector.cpp has the ability to read data from files aswell as output data to a new file. This program also lets you sort data by 1. Student name, 2. Student surname and 3. Final grade.
+vector.cpp has the ability to read data from files as well as output data to a new file. This program also lets you sort data by 1. Student name, 2. Student surname and 3. Final grade.
 I have tested 3 data files containing 1. 10000 students 2. 100000 students 3. 1000000 students
 
 Average time spent on Input, Sorting and Output(Data was tested 3 times):
