@@ -47,7 +47,7 @@ vector <string> Surnames {"Czerniewicz", "Finch", "Hummel", "McKowen", "Warszaws
 
 int main(){
     vector<stud> obj;
-    string filename = "kursiokai.txt";
+    string filename = "studentai1000000.txt";
 
     int option = 0;
     bool pass = true;
@@ -462,7 +462,7 @@ void readFile(vector<stud> &obj, const string filename){
 
     int s = 0;
     int counter = 0;
-
+    auto start = chrono::high_resolution_clock::now();
     ifstream file(filename);
     if (!file.is_open()){
         cerr << "Error: Unable to open file " << filename << endl;
@@ -512,11 +512,16 @@ void readFile(vector<stud> &obj, const string filename){
         }
         counter++;
     }
+    auto end = chrono::high_resolution_clock::now();
+    chrono::duration<double> diff = end-start;
+    cout << " Read time:  " << endl;
+    cout<<diff.count()<<endl; 
     ifstream fclose(filename);
 }
 
 void PrintFile(vector<stud> &obj, bool countByAvg){
 
+    auto start = chrono::high_resolution_clock::now();
     ofstream PrintOut("output.txt");
     if (!PrintOut.is_open())
     {
@@ -542,6 +547,10 @@ void PrintFile(vector<stud> &obj, bool countByAvg){
             PrintOut << left << setw(26) << obj.at(i).vard << setw(26) << obj.at(i).pav << setw(15) << left << fixed << setprecision(2) << obj.at(i).median << endl;
         }
     }
+    auto end = chrono::high_resolution_clock::now();
+    chrono::duration<double> diff = end-start;
+    cout << " Print time:  " << endl;
+    cout<<diff.count()<<endl;
     PrintOut.close();
 }
 
@@ -569,18 +578,33 @@ void sorting(vector<stud>& obj, bool countByAvg) {
 
         switch (option) {
             case (1):{
+                auto start = chrono::high_resolution_clock::now();
                 sort(obj.begin(), obj.end(), compareName);
                 end = true;
+                auto stoptime = chrono::high_resolution_clock::now();
+                chrono::duration<double> diff = stoptime-start;
+                cout << " Sorting time:  " << endl;
+                cout<<diff.count()<<endl;
                 break;
             }
             case (2):{
+                auto start = chrono::high_resolution_clock::now();
                 sort(obj.begin(), obj.end(), compareSurname);
                 end = true;
+                auto stoptime = chrono::high_resolution_clock::now();
+                chrono::duration<double> diff = stoptime-start;
+                cout << " Sorting time:  " << endl;
+                cout<<diff.count()<<endl;
                 break;
             }
             case (3):{
+                auto start = chrono::high_resolution_clock::now();
                 sort(obj.begin(), obj.end(), countByAvg ? compareAverage : compareMedian);
                 end = true;
+                auto stoptime = chrono::high_resolution_clock::now();
+                chrono::duration<double> diff = stoptime-start;
+                cout << " Sorting time:  " << endl;
+                cout<<diff.count()<<endl;
                 break;
             }
             default:{
