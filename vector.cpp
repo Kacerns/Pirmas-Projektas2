@@ -528,25 +528,26 @@ void PrintFile(vector<stud> &obj, bool countByAvg){
         cerr << "Error: Unable to open output file." << endl;
         return;
     }
-
+    ostringstream buffer;
     int s = obj.size();
 
     if(countByAvg){
-        PrintOut << left << setw(26) << "Vardas"  << setw(26) << "Pavardė" << setw(15) << left << "Galutinis (Vid.)" << endl;
+        buffer << left << setw(26) << "Vardas"  << setw(26) << "Pavardė" << setw(15) << left << "Galutinis (Vid.)" << endl;
         for (int z = 0; z<70; z++){ PrintOut << '-'; }
-        PrintOut << endl;
+        buffer << endl;
         for(int i = 0; i<s; i++){
-            PrintOut << left << setw(26) << obj.at(i).vard << setw(26) << obj.at(i).pav << setw(15) << left << fixed << setprecision(2) << obj.at(i).FinalAverage << endl;
+            buffer << left << setw(26) << obj.at(i).vard << setw(26) << obj.at(i).pav << setw(15) << left << fixed << setprecision(2) << obj.at(i).FinalAverage << endl;
         }
     }
     else{
-        PrintOut << left << setw(26) << "Vardas"  << setw(26) << "Pavardė" << setw(15) << left << "Galutinis (Med.)" << endl;
+        buffer << left << setw(26) << "Vardas"  << setw(26) << "Pavardė" << setw(15) << left << "Galutinis (Med.)" << endl;
         for (int z = 0; z<70; z++){ PrintOut << '-'; }
-        PrintOut << endl;
+        buffer << endl;
         for(int i = 0; i<s; i++){
-            PrintOut << left << setw(26) << obj.at(i).vard << setw(26) << obj.at(i).pav << setw(15) << left << fixed << setprecision(2) << obj.at(i).median << endl;
+            buffer << left << setw(26) << obj.at(i).vard << setw(26) << obj.at(i).pav << setw(15) << left << fixed << setprecision(2) << obj.at(i).median << endl;
         }
     }
+    PrintOut << buffer.str();
     auto end = chrono::high_resolution_clock::now();
     chrono::duration<double> diff = end-start;
     cout << " Print time:  " << endl;
