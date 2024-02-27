@@ -356,7 +356,6 @@ void Assign(vector<stud> &obj){
 }
 }
 
-
 void Print (vector<stud> &obj, bool countByAvg){
     int s = obj.size();
 
@@ -377,25 +376,6 @@ void Print (vector<stud> &obj, bool countByAvg){
         }
     }
 }
-
-// int StartParameters(){
-//     string p;
-//     getline(cin,p);
-//     if (cin.fail()) {
-//         ClearCin();
-//         return StartParameters();
-//     }
-//     while(p.empty() || any_of(p.begin(), p.end(), [](char c) { return !(isdigit(c)) || isspace(c); })){
-//         cout << " Netinkamas įvesties formatas, bandykite dar kartą(patikrinkite ar nėra tarpų arba raidžių) :   ";
-//         getline(cin, p);
-//     }
-//     int num = stoi(p);
-//     if(num <= 0 || num > 2147483646){
-//         cout << " Netinkamas įvesties formatas, bandykite dar kartą(patikrinkite ar nėra tarpų arba raidžių) :   ";
-//         return StartParameters();
-//     }
-//     return num;
-// }
 
 int StartParameters() {
     string p;
@@ -449,25 +429,6 @@ string StringParameters(){
     }
 }
 
-
-// int GradingParameters(){
-//     string p;
-//     getline(cin,p);
-//     if (cin.fail()) {
-//         ClearCin();
-//         return GradingParameters();
-//     }
-//     while(p.empty() || any_of(p.begin(), p.end(), [](char c) { return !(isdigit(c)) || isspace(c); })){
-//         cout << " Netinkamas įvesties formatas, bandykite dar kartą(patikrinkite ar nėra tarpų arba raidžių) :   ";
-//         getline(cin, p);
-//     }
-//     int num = stoi(p);
-//     if(num < 0 || num > 11){
-//         cout << " Netinkamas įvesties formatas, bandykite dar kartą(patikrinkite ar nėra tarpų arba raidžių) :   ";
-//         return GradingParameters();
-//     }
-//     return num;
-// }
 int GradingParameters(){
     string p;
     while (true) {
@@ -549,9 +510,9 @@ void readFile(vector<stud> &obj, const string filename){
     getline(file, line);
 
     while (getline(file, line)){
-        obj.resize(counter+1);
+        stud* temp = new stud;
         istringstream iss(line);
-        if (!(iss >> obj.at(counter).vard >> obj.at(counter).pav)){
+        if (!(iss >> temp->vard >> temp->pav)){
             cerr << "Error reading student name and surname from file " << filename << endl;
             continue;
         }
@@ -560,20 +521,22 @@ void readFile(vector<stud> &obj, const string filename){
 
         while (iss >> number){
 
-            obj.at(counter).nd.push_back(number);
-            obj.at(counter).FinalAverage += number;
+            temp->nd.push_back(number);
+            temp->FinalAverage += number;
         }
 
-        if (obj.at(counter).nd.empty()){
+        if (temp->nd.empty()){
 
             cerr << "Error: No grades found for student in file " << filename << endl;
             continue;
         }
 
-        obj.at(counter).egz = obj.at(counter).nd.back();
-        obj.at(counter).nd.pop_back();
-        obj.at(counter).FinalAverage -= obj.at(counter).egz;
-        s = obj.at(counter).nd.size();
+        temp->egz = temp->nd.back();
+        temp->nd.pop_back();
+        temp->FinalAverage -= temp->egz;
+        s = temp->nd.size();
+        obj.push_back(*temp);
+        delete temp;
 
         if(s >= 1){
 
