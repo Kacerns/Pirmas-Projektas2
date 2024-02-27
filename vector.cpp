@@ -378,76 +378,153 @@ void Print (vector<stud> &obj, bool countByAvg){
     }
 }
 
-int StartParameters(){
-    string p;
-    getline(cin,p);
-    if (cin.fail()) {
-        ClearCin();
-        return StartParameters();
-    }
-    while(p.empty() || any_of(p.begin(), p.end(), [](char c) { return !(isdigit(c)) || isspace(c); })){
-        cout << " Netinkamas įvesties formatas, bandykite dar kartą(patikrinkite ar nėra tarpų arba raidžių) :   ";
-        getline(cin, p);
-    }
-    int num = stoi(p);
-    if(num <= 0 || num > 2147483646){
-        cout << " Netinkamas įvesties formatas, bandykite dar kartą(patikrinkite ar nėra tarpų arba raidžių) :   ";
-        return StartParameters();
-    }
-    return num;
-}
+// int StartParameters(){
+//     string p;
+//     getline(cin,p);
+//     if (cin.fail()) {
+//         ClearCin();
+//         return StartParameters();
+//     }
+//     while(p.empty() || any_of(p.begin(), p.end(), [](char c) { return !(isdigit(c)) || isspace(c); })){
+//         cout << " Netinkamas įvesties formatas, bandykite dar kartą(patikrinkite ar nėra tarpų arba raidžių) :   ";
+//         getline(cin, p);
+//     }
+//     int num = stoi(p);
+//     if(num <= 0 || num > 2147483646){
+//         cout << " Netinkamas įvesties formatas, bandykite dar kartą(patikrinkite ar nėra tarpų arba raidžių) :   ";
+//         return StartParameters();
+//     }
+//     return num;
+// }
 
+int StartParameters() {
+    string p;
+    while (true) {
+        getline(cin, p);
+        try {
+            if (cin.fail()) {
+                ClearCin();
+                throw runtime_error(" įvesties klaida, bandykite dar kartą ");
+            }
+            if (p.empty() || any_of(p.begin(), p.end(), [](char c) { return !(isdigit(c)) || isspace(c); })) {
+                throw invalid_argument("Netinkamas įvesties formatas, bandykite dar kartą (patikrinkite ar nėra tarpų arba raidžių)");
+            }
+            int num = stoi(p);
+            if (num <= 0 || num > 2147483646) {
+                throw out_of_range("Netinkamas įvesties formatas, bandykite dar kartą (patikrinkite ar nėra tarpų arba raidžių)");
+            }
+            return num;
+        }
+        catch (const runtime_error& e){
+            cerr << e.what() << endl;
+        }
+        catch (const invalid_argument& e) {
+            cerr << e.what() << endl;
+        }
+        catch (const out_of_range& e) {
+            cerr << e.what() << endl;
+        }
+    }
+}
 string StringParameters(){
     string p;
-    getline(cin, p);
-    if (cin.fail()) {
-        ClearCin();
-        return StringParameters();
-    }
-    while (p.empty() || p.size() > 25 || any_of(p.begin(), p.end(), [](char c) { return isdigit(c) || isspace(c); })) {
-        cout << " Netinkamas įvesties formatas, bandykite dar kartą(patikrinkite ar nėra tarpų arba skaičių) :   ";
+    while(true){
         getline(cin, p);
+        try{
+            if (cin.fail()) {
+                ClearCin();
+                throw runtime_error(" įvesties klaida, bandykite dar kartą ");
+            }
+            if(p.empty() || p.size() > 25 || any_of(p.begin(), p.end(), [](char c) { return isdigit(c) || isspace(c); })) {
+                throw invalid_argument("Netinkamas įvesties formatas, bandykite dar kartą (patikrinkite ar nėra tarpų arba skaičių)");
+            }
+        return p;
+        }
+        catch (const runtime_error& e){
+            cerr << e.what() << endl;
+        }
+        catch (const invalid_argument& e) {
+            cerr << e.what() << endl;
+        }
     }
-    return p;
 }
 
 
+// int GradingParameters(){
+//     string p;
+//     getline(cin,p);
+//     if (cin.fail()) {
+//         ClearCin();
+//         return GradingParameters();
+//     }
+//     while(p.empty() || any_of(p.begin(), p.end(), [](char c) { return !(isdigit(c)) || isspace(c); })){
+//         cout << " Netinkamas įvesties formatas, bandykite dar kartą(patikrinkite ar nėra tarpų arba raidžių) :   ";
+//         getline(cin, p);
+//     }
+//     int num = stoi(p);
+//     if(num < 0 || num > 11){
+//         cout << " Netinkamas įvesties formatas, bandykite dar kartą(patikrinkite ar nėra tarpų arba raidžių) :   ";
+//         return GradingParameters();
+//     }
+//     return num;
+// }
 int GradingParameters(){
     string p;
-    getline(cin,p);
-    if (cin.fail()) {
-        ClearCin();
-        return GradingParameters();
-    }
-    while(p.empty() || any_of(p.begin(), p.end(), [](char c) { return !(isdigit(c)) || isspace(c); })){
-        cout << " Netinkamas įvesties formatas, bandykite dar kartą(patikrinkite ar nėra tarpų arba raidžių) :   ";
+    while (true) {
         getline(cin, p);
+        try {
+            if (cin.fail()) {
+                ClearCin();
+                throw runtime_error(" įvesties klaida, bandykite dar kartą ");
+            }
+            if (p.empty() || any_of(p.begin(), p.end(), [](char c) { return !(isdigit(c)) || isspace(c); })) {
+                throw invalid_argument("Netinkamas įvesties formatas, bandykite dar kartą (patikrinkite ar nėra tarpų arba raidžių)");
+            }
+            int num = stoi(p);
+            if (num < 0 || num > 11) {
+                throw out_of_range("Netinkamas įvesties formatas, bandykite dar kartą (patikrinkite ar nėra tarpų arba raidžių)");
+            }
+            return num;
+        }
+        catch (const runtime_error& e){
+            cerr << e.what() << endl;
+        }
+        catch (const invalid_argument& e) {
+            cerr << e.what() << endl;
+        }
+        catch (const out_of_range& e) {
+            cerr << e.what() << endl;
+        }
     }
-    int num = stoi(p);
-    if(num < 0 || num > 11){
-        cout << " Netinkamas įvesties formatas, bandykite dar kartą(patikrinkite ar nėra tarpų arba raidžių) :   ";
-        return GradingParameters();
-    }
-    return num;
 }
-
 int ExamParameters(){
     string p;
-    getline(cin,p);
-    if (cin.fail()) {
-        ClearCin();
-        return ExamParameters();
-    }
-    while(p.empty() || any_of(p.begin(), p.end(), [](char c) { return !(isdigit(c)) || isspace(c); })){
-        cout << " Netinkamas įvesties formatas, bandykite dar kartą(patikrinkite ar nėra tarpų arba raidžių) :   ";
+    while (true) {
         getline(cin, p);
+        try {
+            if (cin.fail()) {
+                ClearCin();
+                throw runtime_error(" įvesties klaida, bandykite dar kartą ");
+            }
+            if (p.empty() || any_of(p.begin(), p.end(), [](char c) { return !(isdigit(c)) || isspace(c); })) {
+                throw invalid_argument("Netinkamas įvesties formatas, bandykite dar kartą (patikrinkite ar nėra tarpų arba raidžių)");
+            }
+            int num = stoi(p);
+            if (num < 0 || num > 10) {
+                throw out_of_range("Netinkamas įvesties formatas, bandykite dar kartą (patikrinkite ar nėra tarpų arba raidžių)");
+            }
+            return num;
+        }
+        catch (const runtime_error& e){
+            cerr << e.what() << endl;
+        }
+        catch (const invalid_argument& e) {
+            cerr << e.what() << endl;
+        }
+        catch (const out_of_range& e) {
+            cerr << e.what() << endl;
+        }
     }
-    int num = stoi(p);
-    if(num < 0 || num > 10){
-        cout << " Netinkamas įvesties formatas, bandykite dar kartą(patikrinkite ar nėra tarpų arba raidžių) :   ";
-        return ExamParameters();
-    }
-    return num;
 }
 
 void ClearCin(){
