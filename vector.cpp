@@ -384,7 +384,7 @@ int StartParameters() {
         try {
             if (cin.fail()) {
                 ClearCin();
-                throw runtime_error(" įvesties klaida, bandykite dar kartą ");
+                throw runtime_error(" Įvesties klaida, bandykite dar kartą ");
             }
             if (p.empty() || any_of(p.begin(), p.end(), [](char c) { return !(isdigit(c)) || isspace(c); })) {
                 throw invalid_argument("Netinkamas įvesties formatas, bandykite dar kartą (patikrinkite ar nėra tarpų arba raidžių)");
@@ -413,7 +413,7 @@ string StringParameters(){
         try{
             if (cin.fail()) {
                 ClearCin();
-                throw runtime_error(" įvesties klaida, bandykite dar kartą ");
+                throw runtime_error(" Įvesties klaida, bandykite dar kartą ");
             }
             if(p.empty() || p.size() > 25 || any_of(p.begin(), p.end(), [](char c) { return isdigit(c) || isspace(c); })) {
                 throw invalid_argument("Netinkamas įvesties formatas, bandykite dar kartą (patikrinkite ar nėra tarpų arba skaičių)");
@@ -465,7 +465,7 @@ int ExamParameters(){
         try {
             if (cin.fail()) {
                 ClearCin();
-                throw runtime_error(" įvesties klaida, bandykite dar kartą ");
+                throw runtime_error(" Įvesties klaida, bandykite dar kartą ");
             }
             if (p.empty() || any_of(p.begin(), p.end(), [](char c) { return !(isdigit(c)) || isspace(c); })) {
                 throw invalid_argument("Netinkamas įvesties formatas, bandykite dar kartą (patikrinkite ar nėra tarpų arba raidžių)");
@@ -503,54 +503,59 @@ void readFile(vector<stud> &obj, const string filename){
     auto start = chrono::high_resolution_clock::now();
     ifstream file(filename);
     if (!file.is_open()){
-        cerr << "Error: Unable to open file " << filename << endl;
+        cerr << "Klaida!  Failo atidarymo klaida " << filename << endl;
         exit(0);
     }
-    string line;
-    getline(file, line);
+    try{
+        string line;
+        getline(file, line);
 
-    while (getline(file, line)){
-        stud* temp = new stud;
-        istringstream iss(line);
-        if (!(iss >> temp->vard >> temp->pav)){
-            cerr << "Error reading student name and surname from file " << filename << endl;
-            continue;
+        while (getline(file, line)){
+            stud* temp = new stud;
+            istringstream iss(line);
+            if (!(iss >> temp->vard >> temp->pav)){
+                cerr << "Klaida!  Studento vardo ir pavardės skaitymo nuo failo klaida " << filename << endl;
+                continue;
+            }
+
+            int number;
+
+            while (iss >> number){
+
+                temp->nd.push_back(number);
+                temp->FinalAverage += number;
+            }
+
+            if (temp->nd.empty()){
+
+                cerr << "Klaida!  Studento pažymių skaitymo nuo failo klaida " << filename << endl;
+                continue;
+            }
+
+            temp->egz = temp->nd.back();
+            temp->nd.pop_back();
+            temp->FinalAverage -= temp->egz;
+            s = temp->nd.size();
+            obj.push_back(*temp);
+            delete temp;
+
+            if(s >= 1){
+
+                getAverage(obj, s, counter);
+                getMedian(obj, s, counter);
+
+            }
+            else{
+
+                obj.at(counter).FinalAverage = 0.6*obj.at(counter).egz;
+                obj.at(counter).median = 0.6*obj.at(counter).egz;
+
+            }
+            counter++;
         }
-
-        int number;
-
-        while (iss >> number){
-
-            temp->nd.push_back(number);
-            temp->FinalAverage += number;
-        }
-
-        if (temp->nd.empty()){
-
-            cerr << "Error: No grades found for student in file " << filename << endl;
-            continue;
-        }
-
-        temp->egz = temp->nd.back();
-        temp->nd.pop_back();
-        temp->FinalAverage -= temp->egz;
-        s = temp->nd.size();
-        obj.push_back(*temp);
-        delete temp;
-
-        if(s >= 1){
-
-            getAverage(obj, s, counter);
-            getMedian(obj, s, counter);
-
-        }
-        else{
-
-            obj.at(counter).FinalAverage = 0.6*obj.at(counter).egz;
-            obj.at(counter).median = 0.6*obj.at(counter).egz;
-
-        }
-        counter++;
+    }
+    catch(const exception& e){
+        cerr << " Klaida!  Skaitymo nuo failo klaida " << endl;
     }
     auto end = chrono::high_resolution_clock::now();
     chrono::duration<double> diff = end-start;
@@ -563,52 +568,56 @@ void PrintFile(vector<stud> &obj, bool countByAvg){
 
     auto start = chrono::high_resolution_clock::now();
     ofstream PrintOut("output.txt");
-    if (!PrintOut.is_open())
-    {
-        cerr << "Error: Unable to open output file." << endl;
+    if (!PrintOut.is_open()){
+        cerr << "Klaida!  Failo atidarymo klaida." << endl;
         return;
     }
-    ostringstream buffer;
-    int s = obj.size();
+    try{
+        ostringstream buffer;
+        int s = obj.size();
 
-    if(countByAvg){
-        buffer << left << setw(26) << "Vardas"  << setw(26) << "Pavardė" << setw(15) << left << "Galutinis (Vid.)" << endl;
-        for (int z = 0; z<70; z++){ PrintOut << '-'; }
-        buffer << endl;
-        for(int i = 0; i<s; i++){
-            buffer << left << setw(26) << obj.at(i).vard << setw(26) << obj.at(i).pav << setw(15) << left << fixed << setprecision(2) << obj.at(i).FinalAverage << endl;
+        if(countByAvg){
+            buffer << left << setw(26) << "Vardas"  << setw(26) << "Pavardė" << setw(15) << left << "Galutinis (Vid.)" << endl;
+            for (int z = 0; z<70; z++){ buffer << '-'; }
+            buffer << endl;
+            for(int i = 0; i<s; i++){
+                buffer << left << setw(26) << obj.at(i).vard << setw(26) << obj.at(i).pav << setw(15) << left << fixed << setprecision(2) << obj.at(i).FinalAverage << endl;
+            }
         }
-    }
-    else{
-        buffer << left << setw(26) << "Vardas"  << setw(26) << "Pavardė" << setw(15) << left << "Galutinis (Med.)" << endl;
-        for (int z = 0; z<70; z++){ PrintOut << '-'; }
-        buffer << endl;
-        for(int i = 0; i<s; i++){
-            buffer << left << setw(26) << obj.at(i).vard << setw(26) << obj.at(i).pav << setw(15) << left << fixed << setprecision(2) << obj.at(i).median << endl;
+        else{
+            buffer << left << setw(26) << "Vardas"  << setw(26) << "Pavardė" << setw(15) << left << "Galutinis (Med.)" << endl;
+            for (int z = 0; z<70; z++){ buffer << '-'; }
+            buffer << endl;
+            for(int i = 0; i<s; i++){
+                buffer << left << setw(26) << obj.at(i).vard << setw(26) << obj.at(i).pav << setw(15) << left << fixed << setprecision(2) << obj.at(i).median << endl;
+            }
         }
+        PrintOut << buffer.str();
+        auto end = chrono::high_resolution_clock::now();
+        chrono::duration<double> diff = end-start;
+        cout << " Print time:  " << diff.count() << endl;;
+        PrintOut.close();
     }
-    PrintOut << buffer.str();
-    auto end = chrono::high_resolution_clock::now();
-    chrono::duration<double> diff = end-start;
-    cout << " Print time:  " << endl;
-    cout<<diff.count()<<endl;
-    PrintOut.close();
+    catch (const exception& e){
+        cerr << " Klaida!  Įrašymo į failą klaida " << endl;
+    }
 }
 
-bool compareName(const stud& a, const stud& b) {
+bool compareName(const stud& a, const stud& b){
     return a.vard < b.vard;
 }
-bool compareSurname(const stud& a, const stud& b) {
+bool compareSurname(const stud& a, const stud& b){
     return a.pav < b.pav;
 }
-bool compareMedian(const stud& a, const stud& b) {
+bool compareMedian(const stud& a, const stud& b){
     return a.median < b.median;
 }
-bool compareAverage(const stud& a, const stud& b) {
+bool compareAverage(const stud& a, const stud& b){
     return a.FinalAverage < b.FinalAverage;
 }
 
-void sorting(vector<stud>& obj, bool countByAvg) {
+void sorting(vector<stud>& obj, bool countByAvg){
+    
     int option;
     bool end = false;
     while (!end) {
@@ -621,31 +630,28 @@ void sorting(vector<stud>& obj, bool countByAvg) {
             case (1):{
                 auto start = chrono::high_resolution_clock::now();
                 sort(obj.begin(), obj.end(), compareName);
-                end = true;
                 auto stoptime = chrono::high_resolution_clock::now();
                 chrono::duration<double> diff = stoptime-start;
-                cout << " Sorting time:  " << endl;
-                cout<<diff.count()<<endl;
+                cout << " Sorting time:  " << diff.count() << endl;
+                end = true;
                 break;
             }
             case (2):{
                 auto start = chrono::high_resolution_clock::now();
                 sort(obj.begin(), obj.end(), compareSurname);
-                end = true;
                 auto stoptime = chrono::high_resolution_clock::now();
                 chrono::duration<double> diff = stoptime-start;
-                cout << " Sorting time:  " << endl;
-                cout<<diff.count()<<endl;
+                cout << " Sorting time:  " << diff.count() << endl;
+                end = true;
                 break;
             }
             case (3):{
                 auto start = chrono::high_resolution_clock::now();
                 sort(obj.begin(), obj.end(), countByAvg ? compareAverage : compareMedian);
-                end = true;
                 auto stoptime = chrono::high_resolution_clock::now();
                 chrono::duration<double> diff = stoptime-start;
-                cout << " Sorting time:  " << endl;
-                cout<<diff.count()<<endl;
+                cout << " Sorting time:  " << diff.count() << endl;
+                end = true;
                 break;
             }
             default:{
