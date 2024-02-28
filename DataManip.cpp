@@ -1,5 +1,9 @@
 #include "DataManip.h"
 
+vector <string> Names {"Audrius", "Edvard", "Ganesh", "Nojus", "Cleophas", "Rodrigo","Jurgita", "Ugne", "Tatiana", "Sarah"};
+vector <string> Surnames {"Czerniewicz", "Finch", "Hummel", "McKowen", "Warszawski", "Clery", "Wilbur", "Kennedy", "Nixon", "Obama"};
+
+
 float getAverage(vector<stud> &obj, int s, int i){
     obj.at(i).FinalAverage = obj.at(i).FinalAverage/s;
     obj.at(i).FinalAverage = obj.at(i).FinalAverage * 0.4;
