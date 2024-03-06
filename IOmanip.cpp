@@ -238,7 +238,7 @@ void readFile(vector<stud> &obj, const string filename){
             temp->nd.pop_back();
             temp->FinalAverage -= temp->egz;
             s = temp->nd.size();
-            obj.push_back(*temp);
+            obj.emplace_back(*temp);
             delete temp;
 
             if(s >= 1){
@@ -303,4 +303,75 @@ void PrintFile(vector<stud> &obj, bool countByAvg){
     catch (const exception& e){
         cerr << " Klaida!  Įrašymo į failą klaida " << endl;
     }
+}
+
+void CreateFile(string& filename){
+
+    int option = 0;
+    bool pass = true;
+
+    while(pass){
+    cout << " Pasirinkite studentų failo dydį: " << endl;
+    cout << " (1) 1000 " << endl; 
+    cout << " (2) 10000 " << endl;
+    cout << " (3) 100000 " << endl; 
+    cout << " (4) 1000000 " << endl;
+    cout << " (5) 10000000 " << endl;
+    cin >> option;
+    ClearCin();
+
+    switch (option){
+        case 1 : { option = 1000; filename = "1000.txt"; pass = false; break;}
+        case 2 : { option = 10000; filename = "10000.txt"; pass = false; break;}
+        case 3 : { option = 100000; filename = "100000.txt"; pass = false; break;}
+        case 4 : { option = 1000000; filename = "1000000.txt"; pass = false; break;}
+        case 5 : { option = 10000000; filename = "10000000.txt"; pass = false; break;}
+        default:{
+            cout << " Netinkamas įvesties formatas, bandykite dar kartą :   " << endl;
+            break;
+        }
+
+    }
+    }
+
+    auto start = std::chrono::high_resolution_clock::now();
+    ofstream PrintOut(filename);
+    if (!PrintOut.is_open()){
+        cerr << "Klaida!  Failo atidarymo klaida." << endl;
+        return;
+    }
+    try{
+        ostringstream buffer;
+        int s = option;
+        int ndsize = 5;
+        string ND;
+        string Vardas;
+        string Pavarde;
+    
+        buffer << left << setw(26) << "Vardas"  << setw(26) << "Pavardė";
+        for(int i = 0; i<ndsize; i++){ ND = "ND" + std::to_string(i+1); buffer << setw(6) << left << ND;}
+        buffer << setw(6) << left << "Egz" << endl;
+        for(int i = 0; i<s; i++){
+            Vardas = "Vardas" + std::to_string(i+1);
+            Pavarde = "Pavarde" + std::to_string(i+1);
+            buffer << left << setw(26) << Vardas << setw(26) << Pavarde;
+            unsigned seed = (std::chrono::high_resolution_clock::now().time_since_epoch().count()) + i;
+            mt19937 rng(seed);
+            std::uniform_int_distribution<int> dist(1, 10);
+            for(int j = 0; j<ndsize; j++){
+                buffer << setw(6) << left << dist(rng);
+            }
+            buffer << setw(6) << left << dist(rng) << endl;
+        }
+        
+        PrintOut << buffer.str();
+        auto end = std::chrono::high_resolution_clock::now();
+        std::chrono::duration<double> diff = end-start;
+        cout << " Creation time:  " << diff.count() << endl;;
+        PrintOut.close();
+    }
+    catch (const exception& e){
+        cerr << " Klaida!  Įrašymo į failą klaida " << endl;
+    }
+
 }

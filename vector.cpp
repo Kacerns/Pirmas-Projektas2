@@ -4,14 +4,13 @@
 #include "DataManip.h"
 
 
-
 int main(){
     vector<stud> obj;
-    string filename = "studentai1000000.txt";
+    string filename;
 
     int option = 0;
     bool pass = true;
-
+    CreateFile(filename);
     while(pass){
     cout << " Pasrinkite programos veikimo eigą: " << endl;
     cout << " (1) Duomenis nuskaityti iš failo. " << endl; 
