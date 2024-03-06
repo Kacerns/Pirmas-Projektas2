@@ -12,6 +12,7 @@ float getAverage(vector<stud> &obj, int s, int i){
 }
 
 float getMedian(vector<stud> &obj, int s, int i){
+    sort(obj.at(i).nd.begin(), obj.at(i).nd.end());
     if(s%2==0){
         obj.at(i).median = (float)obj.at(i).nd.at((s/2)-1) + (float)obj.at(i).nd.at((s/2));
         obj.at(i).median = obj.at(i).median/2.0;
