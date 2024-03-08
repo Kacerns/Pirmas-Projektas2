@@ -198,7 +198,7 @@ void Print (vector<stud> &obj, bool countByAvg){
     }
 }
 
-void readFile(vector<stud> &obj, const string filename){
+void readFile(vector<stud> &SAD,vector<stud> &COOL, const string filename, const bool countByAvg){
 
     int s = 0;
     int counter = 0;
@@ -238,20 +238,36 @@ void readFile(vector<stud> &obj, const string filename){
             temp->nd.pop_back();
             temp->FinalAverage -= temp->egz;
             s = temp->nd.size();
-            obj.emplace_back(*temp);
-            delete temp;
 
             if(s >= 1){
-
-                getAverage(obj, s, counter);
-                getMedian(obj, s, counter);
-
+                if(countByAvg){
+                    temp->FinalAverage = ((temp->FinalAverage/s)*0.4) + 0.6*temp->egz;
+                }
+                else{
+                    sort(temp->nd.begin(), temp->nd.end());
+                    if(s%2==0){
+                        temp->median = (float)temp->nd.at((s/2)-1) + (float)temp->nd.at((s/2));
+                        temp->median = temp->median/2.0;
+                        temp->median = temp->median*0.4;
+                    }
+                    else{
+                        temp->median = temp->nd.at(((float)s/2)-0.5);
+                        temp->median = temp->median*0.4;
+                    }
+                        temp->median = (float)temp->egz * 0.6 + temp->median;
+                }
             }
             else{
 
-                obj.at(counter).FinalAverage = 0.6*obj.at(counter).egz;
-                obj.at(counter).median = 0.6*obj.at(counter).egz;
+                temp->FinalAverage = 0.6*temp->egz;
+                temp->median = 0.6*temp->egz;
 
+            }
+            if(countByAvg){
+                temp->FinalAverage<5 ? SAD.emplace_back(*temp) : COOL.emplace_back(*temp);
+            }
+            else{
+                temp->median<5 ? SAD.emplace_back(*temp) : COOL.emplace_back(*temp);
             }
             counter++;
         }
@@ -266,10 +282,10 @@ void readFile(vector<stud> &obj, const string filename){
     ifstream fclose(filename);
 }
 
-void PrintFile(vector<stud> &obj, bool countByAvg){
+void PrintFile(vector<stud> &obj, bool countByAvg, string filename){
 
     auto start = std::chrono::high_resolution_clock::now();
-    ofstream PrintOut("output.txt");
+    ofstream PrintOut(filename);
     if (!PrintOut.is_open()){
         cerr << "Klaida!  Failo atidarymo klaida." << endl;
         return;
@@ -351,12 +367,13 @@ void CreateFile(string& filename){
         buffer << left << setw(26) << "Vardas"  << setw(26) << "Pavardė";
         for(int i = 0; i<ndsize; i++){ ND = "ND" + std::to_string(i+1); buffer << setw(6) << left << ND;}
         buffer << setw(6) << left << "Egz" << endl;
+        unsigned seed = (std::chrono::high_resolution_clock::now().time_since_epoch().count());
+        mt19937 rng(seed);
         for(int i = 0; i<s; i++){
             Vardas = "Vardas" + std::to_string(i+1);
             Pavarde = "Pavarde" + std::to_string(i+1);
             buffer << left << setw(26) << Vardas << setw(26) << Pavarde;
-            unsigned seed = (std::chrono::high_resolution_clock::now().time_since_epoch().count()) + i;
-            mt19937 rng(seed);
+
             std::uniform_int_distribution<int> dist(1, 10);
             for(int j = 0; j<ndsize; j++){
                 buffer << setw(6) << left << dist(rng);

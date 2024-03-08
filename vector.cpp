@@ -6,36 +6,14 @@
 
 int main(){
     vector<stud> obj;
+    vector<stud> SAD;
+    vector<stud> COOL;
     string filename;
 
     int option = 0;
-    bool pass = true;
     CreateFile(filename);
-    while(pass){
-    cout << " Pasrinkite programos veikimo eigą: " << endl;
-    cout << " (1) Duomenis nuskaityti iš failo. " << endl; 
-    cout << " (2) Duomenis suvesti programoje. " << endl;
-    cin >> option;
-    ClearCin();
 
-    switch (option){
-        case 1 :{
-            readFile(obj, filename);
-            pass = false;
-            break;
-        }
-        case 2 :{
-            Assign(obj);
-            pass = false;
-            break;
-        }
-        default:{
-            cout << " Netinkamas įvesties formatas, bandykite dar kartą :   " << endl;
-            break;
-        }
-    }
-    }
-    pass = true;
+    bool pass = true;
     bool countByAvg;
     while(pass){
     cout << " Pasrinkite galutinio balo skaičiavimo būdą: " << endl;
@@ -61,7 +39,35 @@ int main(){
     }
     }
 
-    sorting(obj, countByAvg);
+    pass=true;
+
+    while(pass){
+    cout << " Pasrinkite programos veikimo eigą: " << endl;
+    cout << " (1) Duomenis nuskaityti iš failo. " << endl; 
+    cout << " (2) Duomenis suvesti programoje. " << endl;
+    cin >> option;
+    ClearCin();
+
+    switch (option){
+        case 1 :{
+            readFile(SAD, COOL, filename, countByAvg);
+            pass = false;
+            break;
+        }
+        case 2 :{
+            Assign(obj);
+            pass = false;
+            break;
+        }
+        default:{
+            cout << " Netinkamas įvesties formatas, bandykite dar kartą :   " << endl;
+            break;
+        }
+    }
+    }
+
+    sorting(SAD, countByAvg);
+    sorting(COOL, countByAvg);
 
     pass = true;
     while(pass){
@@ -73,7 +79,10 @@ int main(){
 
     switch (option){
         case 1 :{
-            PrintFile(obj, countByAvg);
+            filename = "Liūdesiukai.txt";
+            PrintFile(SAD, countByAvg, filename);
+            filename = "Kietiakai.txt";
+            PrintFile(COOL, countByAvg, filename);
             pass = false;
             break;
         }
