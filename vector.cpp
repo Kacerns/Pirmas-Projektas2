@@ -36,8 +36,7 @@ int main(){
             cout << " Netinkamas įvesties formatas, bandykite dar kartą :   " << endl;
             break;
         }
-    }
-    }
+    }}
 
     pass=true;
 
@@ -50,7 +49,7 @@ int main(){
 
     switch (option){
         case 1 :{
-            readFile(SAD, COOL, filename, countByAvg);
+            readFile(obj, filename, countByAvg);
             pass = false;
             break;
         }
@@ -63,11 +62,10 @@ int main(){
             cout << " Netinkamas įvesties formatas, bandykite dar kartą :   " << endl;
             break;
         }
-    }
-    }
+    }}
 
-    sorting(SAD, countByAvg);
-    sorting(COOL, countByAvg);
+    sorting(obj, countByAvg);
+    SplitVector(obj, SAD, COOL, countByAvg);
 
     pass = true;
     while(pass){
@@ -95,8 +93,7 @@ int main(){
             cout << " Netinkamas įvesties formatas, bandykite dar kartą :   " << endl;
             break;
         }
-    }
-    }
+    }}
     return 0;
 
 }

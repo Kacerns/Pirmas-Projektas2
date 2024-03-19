@@ -113,3 +113,35 @@ void sorting(vector<stud>& obj, bool countByAvg){
         }
     }
 }
+
+void SplitVector(vector<stud>& obj, vector<stud> &SAD, vector<stud> &COOL, bool countByAvg){
+
+    int index = 0;
+    if(countByAvg){
+        for(auto i : obj){
+            if(i.FinalAverage == 5){break;}
+            index++;
+        }
+    }
+    else{
+        for(auto i : obj){
+            if(i.median == 5){break;}
+            index++;
+        }
+    }
+    auto start = std::chrono::high_resolution_clock::now();
+    if(index < obj.size()){
+        SAD.assign(obj.begin(), obj.begin()+index);
+        COOL.assign(obj.begin()+index, obj.end());
+        obj.clear();
+    }
+    else{
+        SAD = obj;
+        obj.clear();
+    }
+    auto end = std::chrono::high_resolution_clock::now();
+    std::chrono::duration<double> diff = end-start;
+    cout << " Split into two vectors time:  ";
+    cout<<diff.count()<<endl; 
+
+}

@@ -198,7 +198,7 @@ void Print (vector<stud> &obj, bool countByAvg){
     }
 }
 
-void readFile(vector<stud> &SAD,vector<stud> &COOL, const string filename, const bool countByAvg){
+void readFile(vector<stud> &obj, const string filename, const bool countByAvg){
 
     int s = 0;
     int counter = 0;
@@ -263,12 +263,7 @@ void readFile(vector<stud> &SAD,vector<stud> &COOL, const string filename, const
                 temp->median = 0.6*temp->egz;
 
             }
-            if(countByAvg){
-                temp->FinalAverage<5 ? SAD.emplace_back(*temp) : COOL.emplace_back(*temp);
-            }
-            else{
-                temp->median<5 ? SAD.emplace_back(*temp) : COOL.emplace_back(*temp);
-            }
+            obj.emplace_back(*temp);
             counter++;
         }
     }
@@ -277,7 +272,7 @@ void readFile(vector<stud> &SAD,vector<stud> &COOL, const string filename, const
     }
     auto end = std::chrono::high_resolution_clock::now();
     std::chrono::duration<double> diff = end-start;
-    cout << " Read time:  " << endl;
+    cout << " Read time:  ";
     cout<<diff.count()<<endl; 
     ifstream fclose(filename);
 }

@@ -13,3 +13,5 @@ bool compareName(const stud& a, const stud& b);
 bool compareSurname(const stud& a, const stud& b);
 bool compareMedian(const stud& a, const stud& b);
 bool compareAverage(const stud& a, const stud& b);
+
+void SplitVector(vector<stud>& obj, vector<stud> &SAD, vector<stud> &COOL, bool countByAvg);
