@@ -9,11 +9,15 @@
 #include <random>
 #include <chrono>
 #include <fstream>
+#include <deque>
+#include <list>
 
 using std::cout;
 using std::cin;
 using std::string;
 using std::vector;
+using std::deque;
+using std::list;
 using std::endl;
 using std::mt19937;
 using std::setw;
