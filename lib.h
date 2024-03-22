@@ -40,3 +40,6 @@ struct stud{
     float FinalAverage = 0.0;
     float median = 0.0;
 };
+
+extern vector<double> Marktime;
+extern vector<double> AverageTime;

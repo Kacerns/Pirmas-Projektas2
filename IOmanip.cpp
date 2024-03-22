@@ -272,8 +272,7 @@ void readFile(vector<stud> &obj, const string filename, const bool countByAvg){
     }
     auto end = std::chrono::high_resolution_clock::now();
     std::chrono::duration<double> diff = end-start;
-    cout << " Read time:  ";
-    cout<<diff.count()<<endl; 
+    Marktime.emplace_back(diff.count());
     ifstream fclose(filename);
 }
 
@@ -308,7 +307,7 @@ void PrintFile(vector<stud> &obj, bool countByAvg, string filename){
         PrintOut << buffer.str();
         auto end = std::chrono::high_resolution_clock::now();
         std::chrono::duration<double> diff = end-start;
-        cout << " Print time:  " << diff.count() << endl;;
+        Marktime.emplace_back(diff.count());
         PrintOut.close();
     }
     catch (const exception& e){
@@ -379,11 +378,31 @@ void CreateFile(string& filename){
         PrintOut << buffer.str();
         auto end = std::chrono::high_resolution_clock::now();
         std::chrono::duration<double> diff = end-start;
-        cout << " Creation time:  " << diff.count() << endl;;
+        Marktime.emplace_back(diff.count());
         PrintOut.close();
     }
     catch (const exception& e){
         cerr << " Klaida!  Įrašymo į failą klaida " << endl;
     }
 
+}
+
+void OutputTime(){
+    cout<<endl<<endl;
+    for(int i =0; i<(Marktime.size()/5); i++){
+        cout<<" File creation took:  " << Marktime.at(i)<<endl;
+        cout<<" Reading data from file took:   " << Marktime.at(i+1)<<endl;
+        cout<<" Sorting took:  " << Marktime.at(i+2)<<endl;
+        cout<<" Making new containers took:  " << Marktime.at(i+3)<<endl;
+        cout<<" Printing Liudesiukai container took:  " <<Marktime.at(i+4)<<endl;
+        cout<<" Printing Kietiakai container took:  " <<Marktime.at(i+5)<<endl;
+    }
+
+    double temp = 0.0;
+    for(double i : Marktime){
+        temp += i;
+    }
+    AverageTime.emplace_back(temp);
+    cout<<" Program time:  " <<AverageTime.at(0)<<endl;
+    cout<<endl;
 }

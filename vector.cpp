@@ -3,6 +3,8 @@
 #include "ErrorHandling.h"
 #include "DataManip.h"
 
+vector<double> Marktime;
+vector<double> AverageTime;
 
 int main(){
     vector<stud> obj;
@@ -94,6 +96,8 @@ int main(){
             break;
         }
     }}
+    OutputTime();
+
     return 0;
 
 }

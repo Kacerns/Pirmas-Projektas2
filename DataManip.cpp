@@ -84,7 +84,7 @@ void sorting(vector<stud>& obj, bool countByAvg){
                 sort(obj.begin(), obj.end(), compareName);
                 auto stoptime = std::chrono::high_resolution_clock::now();
                 std::chrono::duration<double> diff = stoptime-start;
-                cout << " Sorting time:  " << diff.count() << endl;
+                Marktime.emplace_back(diff.count());
                 end = true;
                 break;
             }
@@ -93,7 +93,7 @@ void sorting(vector<stud>& obj, bool countByAvg){
                 sort(obj.begin(), obj.end(), compareSurname);
                 auto stoptime = std::chrono::high_resolution_clock::now();
                 std::chrono::duration<double> diff = stoptime-start;
-                cout << " Sorting time:  " << diff.count() << endl;
+                Marktime.emplace_back(diff.count());
                 end = true;
                 break;
             }
@@ -102,7 +102,7 @@ void sorting(vector<stud>& obj, bool countByAvg){
                 sort(obj.begin(), obj.end(), countByAvg ? compareAverage : compareMedian);
                 auto stoptime = std::chrono::high_resolution_clock::now();
                 std::chrono::duration<double> diff = stoptime-start;
-                cout << " Sorting time:  " << diff.count() << endl;
+                Marktime.emplace_back(diff.count());
                 end = true;
                 break;
             }
@@ -141,7 +141,6 @@ void SplitVector(vector<stud>& obj, vector<stud> &SAD, vector<stud> &COOL, bool 
     }
     auto end = std::chrono::high_resolution_clock::now();
     std::chrono::duration<double> diff = end-start;
-    cout << " Split into two vectors time:  ";
-    cout<<diff.count()<<endl; 
+    Marktime.emplace_back(diff.count());
 
 }
