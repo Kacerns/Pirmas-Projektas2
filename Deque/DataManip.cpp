@@ -68,7 +68,7 @@ bool compareAverage(const stud& a, const stud& b){
     return a.FinalAverage < b.FinalAverage;
 }
 
-void sorting(vector<stud>& obj, bool countByAvg){
+void sorting(deque<stud>& obj, bool countByAvg){
     
     int option;
     bool end = false;
@@ -114,7 +114,7 @@ void sorting(vector<stud>& obj, bool countByAvg){
     }
 }
 
-void SplitVector(vector<stud>& obj, vector<stud> &SAD, vector<stud> &COOL, bool countByAvg){
+void SplitDeque(deque<stud>& obj, deque<stud> &SAD, deque<stud> &COOL, bool countByAvg){
 
     int index = 0;
     if(countByAvg){

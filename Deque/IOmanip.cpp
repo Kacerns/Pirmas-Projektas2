@@ -198,7 +198,7 @@ void Print (vector<stud> &obj, bool countByAvg){
     }
 }
 
-void readFile(vector<stud> &obj, const string filename, const bool countByAvg){
+void readFile(deque<stud> &obj, const string filename, const bool countByAvg){
 
     int s = 0;
     int counter = 0;
@@ -264,6 +264,7 @@ void readFile(vector<stud> &obj, const string filename, const bool countByAvg){
 
             }
             obj.emplace_back(*temp);
+            delete temp;
             counter++;
         }
     }
@@ -276,7 +277,7 @@ void readFile(vector<stud> &obj, const string filename, const bool countByAvg){
     ifstream fclose(filename);
 }
 
-void PrintFile(vector<stud> &obj, bool countByAvg, string filename){
+void PrintFile(deque<stud> &obj, bool countByAvg, string filename){
 
     auto start = std::chrono::high_resolution_clock::now();
     ofstream PrintOut(filename);

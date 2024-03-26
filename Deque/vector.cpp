@@ -7,7 +7,7 @@ vector<double> Marktime;
 vector<double> AverageTime;
 
 int main(){
-    vector<stud> obj;
+    deque<stud> obj;
     string filename;
 
     int option = 0;
@@ -54,7 +54,7 @@ int main(){
             break;
         }
         case 2 :{
-            Assign(obj);
+            //Assign(obj);
             pass = false;
             break;
         }
@@ -64,10 +64,10 @@ int main(){
         }
     }}
 
-    vector<stud> SAD,COOL;
+    deque<stud> SAD,COOL;
 
     sorting(obj, countByAvg);
-    SplitVector(obj, SAD, COOL, countByAvg);
+    SplitDeque(obj, SAD, COOL, countByAvg);
 
     pass = true;
     while(pass){
@@ -87,7 +87,7 @@ int main(){
             break;
         }
         case 2 :{
-            Print(obj, countByAvg);
+            //Print(obj, countByAvg);
             pass = false;
             break;
         }
