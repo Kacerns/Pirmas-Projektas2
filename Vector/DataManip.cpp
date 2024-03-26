@@ -129,16 +129,60 @@ void SplitVector(vector<stud>& obj, vector<stud> &SAD, vector<stud> &COOL, bool 
             index++;
         }
     }
-    auto start = std::chrono::high_resolution_clock::now();
-    if(index < obj.size()){
-        SAD.assign(obj.begin(), obj.begin()+index);
-        COOL.assign(obj.begin()+index, obj.end());
+    int temp;
+    cout << "Strategija : 1, 2, 3" << endl;
+    cin >> temp;
+    ClearCin();
+    switch (temp)
+    {
+    case 1:{
+        auto start = std::chrono::high_resolution_clock::now();
+        if(index < obj.size()){
+            SAD.assign(obj.begin(), obj.begin()+index);
+            COOL.assign(obj.begin()+index, obj.end());
+        }
+        else{
+            SAD = obj;
+        }
+        auto end = std::chrono::high_resolution_clock::now();
+        std::chrono::duration<double> diff = end-start;
+        Marktime.emplace_back(diff.count());
+        break;
     }
-    else{
-        SAD = obj;
+    case 2:{
+        auto start = std::chrono::high_resolution_clock::now();
+        if(index < obj.size()){
+            SAD.assign(obj.begin(), obj.begin()+index);
+            obj.erase(obj.begin(), obj.begin()+index);
+            COOL = obj;
+        }
+        else{
+            SAD = obj;
+        }
+        auto end = std::chrono::high_resolution_clock::now();
+        std::chrono::duration<double> diff = end-start;
+        Marktime.emplace_back(diff.count());
+        break;
     }
-    auto end = std::chrono::high_resolution_clock::now();
-    std::chrono::duration<double> diff = end-start;
-    Marktime.emplace_back(diff.count());
+    case 3:{
+        auto start = std::chrono::high_resolution_clock::now();
+        if(index < obj.size()){
+            SAD.assign(obj.begin(), obj.begin()+index);
+            obj.erase(obj.begin(), obj.begin()+index);
+            COOL = obj;
+        }
+        else{
+            SAD = obj;
+        }
+        auto end = std::chrono::high_resolution_clock::now();
+        std::chrono::duration<double> diff = end-start;
+        Marktime.emplace_back(diff.count());
+        break;
+    }
+    default:{
+        break;
+    }
+    }
+
 
 }
