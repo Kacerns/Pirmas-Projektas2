@@ -279,7 +279,7 @@ void readFile(vector<stud> &obj, const string filename, const bool countByAvg){
 
 void PrintFile(vector<stud> &obj, bool countByAvg, string filename){
 
-    auto start = std::chrono::high_resolution_clock::now();
+    // auto start = std::chrono::high_resolution_clock::now();
     ofstream PrintOut(filename);
     if (!PrintOut.is_open()){
         cerr << "Klaida!  Failo atidarymo klaida." << endl;
@@ -306,9 +306,9 @@ void PrintFile(vector<stud> &obj, bool countByAvg, string filename){
             }
         }
         PrintOut << buffer.str();
-        auto end = std::chrono::high_resolution_clock::now();
-        std::chrono::duration<double> diff = end-start;
-        Marktime.emplace_back(diff.count());
+        // auto end = std::chrono::high_resolution_clock::now();
+        // std::chrono::duration<double> diff = end-start;
+        // Marktime.emplace_back(diff.count());
         PrintOut.close();
     }
     catch (const exception& e){
@@ -344,66 +344,61 @@ void CreateFile(string& filename){
 
     }
     }
-
-    auto start = std::chrono::high_resolution_clock::now();
-    ofstream PrintOut(filename);
-    if (!PrintOut.is_open()){
-        cerr << "Klaida!  Failo atidarymo klaida." << endl;
-        return;
-    }
-    try{
-        ostringstream buffer;
-        int s = option;
-        int ndsize = 5;
-        string ND;
-        string Vardas;
-        string Pavarde;
+    // For testing purposes we keep txt files constant.
+    // auto start = std::chrono::high_resolution_clock::now();
+    // ofstream PrintOut(filename);
+    // if (!PrintOut.is_open()){
+    //     cerr << "Klaida!  Failo atidarymo klaida." << endl;
+    //     return;
+    // }
+    // try{
+    //     ostringstream buffer;
+    //     int s = option;
+    //     int ndsize = 5;
+    //     string ND;
+    //     string Vardas;
+    //     string Pavarde;
     
-        buffer << left << setw(26) << "Vardas"  << setw(26) << "Pavardė";
-        for(int i = 0; i<ndsize; i++){ ND = "ND" + std::to_string(i+1); buffer << setw(6) << left << ND;}
-        buffer << setw(6) << left << "Egz" << endl;
-        unsigned seed = (std::chrono::high_resolution_clock::now().time_since_epoch().count());
-        mt19937 rng(seed);
-        for(int i = 0; i<s; i++){
-            Vardas = "Vardas" + std::to_string(i+1);
-            Pavarde = "Pavarde" + std::to_string(i+1);
-            buffer << left << setw(26) << Vardas << setw(26) << Pavarde;
+    //     buffer << left << setw(26) << "Vardas"  << setw(26) << "Pavardė";
+    //     for(int i = 0; i<ndsize; i++){ ND = "ND" + std::to_string(i+1); buffer << setw(6) << left << ND;}
+    //     buffer << setw(6) << left << "Egz" << endl;
+    //     unsigned seed = (std::chrono::high_resolution_clock::now().time_since_epoch().count());
+    //     mt19937 rng(seed);
+    //     for(int i = 0; i<s; i++){
+    //         Vardas = "Vardas" + std::to_string(i+1);
+    //         Pavarde = "Pavarde" + std::to_string(i+1);
+    //         buffer << left << setw(26) << Vardas << setw(26) << Pavarde;
 
-            std::uniform_int_distribution<int> dist(1, 10);
-            for(int j = 0; j<ndsize; j++){
-                buffer << setw(6) << left << dist(rng);
-            }
-            buffer << setw(6) << left << dist(rng) << endl;
-        }
+    //         std::uniform_int_distribution<int> dist(1, 10);
+    //         for(int j = 0; j<ndsize; j++){
+    //             buffer << setw(6) << left << dist(rng);
+    //         }
+    //         buffer << setw(6) << left << dist(rng) << endl;
+    //     }
         
-        PrintOut << buffer.str();
-        auto end = std::chrono::high_resolution_clock::now();
-        std::chrono::duration<double> diff = end-start;
-        Marktime.emplace_back(diff.count());
-        PrintOut.close();
-    }
-    catch (const exception& e){
-        cerr << " Klaida!  Įrašymo į failą klaida " << endl;
-    }
+    //     PrintOut << buffer.str();
+    //     auto end = std::chrono::high_resolution_clock::now();
+    //     std::chrono::duration<double> diff = end-start;
+    //     Marktime.emplace_back(diff.count());
+    //     PrintOut.close();
+    // }
+    // catch (const exception& e){
+    //     cerr << " Klaida!  Įrašymo į failą klaida " << endl;
+    // }
 
 }
 
 void OutputTime(){
     cout<<endl<<endl;
-    for(int i =0; i<(Marktime.size()/5); i++){
-        cout<<" File creation took:  " << Marktime.at(i)<<endl;
-        cout<<" Reading data from file took:   " << Marktime.at(i+1)<<endl;
-        cout<<" Sorting took:  " << Marktime.at(i+2)<<endl;
-        cout<<" Making new containers took:  " << Marktime.at(i+3)<<endl;
-        cout<<" Printing Liudesiukai container took:  " <<Marktime.at(i+4)<<endl;
-        cout<<" Printing Kietiakai container took:  " <<Marktime.at(i+5)<<endl;
-    }
+    cout<<" Reading data from file took: " << Marktime.at(0)<<endl;
+    cout<<" Sorting took: " << Marktime.at(1)<<endl;
+    cout<<" Making new containers took: " << Marktime.at(2)<<endl;
 
     double temp = 0.0;
     for(double i : Marktime){
         temp += i;
     }
-    AverageTime.emplace_back(temp);
-    cout<<" Program time:  " <<AverageTime.at(0)<<endl;
-    cout<<endl;
+    cout<<" Average time:  "<<temp<<endl;
+    // AverageTime.emplace_back(temp);
+    // cout<<" Program time:  " <<AverageTime.at(0)<<endl;
 }
