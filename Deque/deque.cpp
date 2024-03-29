@@ -82,7 +82,7 @@ int main(){
             filename = "Liūdesiukai.txt";
             PrintFile(SAD, countByAvg, filename);
             filename = "Kietiakai.txt";
-            PrintFile(COOL, countByAvg, filename);
+            if(COOL.size() !=0){ PrintFile(COOL, countByAvg, filename);} else{PrintFile(obj, countByAvg, filename);};
             pass = false;
             break;
         }

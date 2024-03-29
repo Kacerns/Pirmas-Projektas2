@@ -285,6 +285,7 @@ void PrintFile(vector<stud> &obj, bool countByAvg, string filename){
         cerr << "Klaida!  Failo atidarymo klaida." << endl;
         return;
     }
+
     try{
         ostringstream buffer;
         int s = obj.size();
