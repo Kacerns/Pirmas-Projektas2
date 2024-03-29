@@ -167,47 +167,34 @@ void SplitList(list<stud>& obj, list<stud> &SAD, list<stud> &COOL, bool countByA
         auto start = std::chrono::high_resolution_clock::now();
         if (countByAvg) {
             int index = 0;
-            auto it_end = obj.end();
-            for (auto student = obj.begin(); student != it_end;) {
-                if (student->FinalAverage < 5) {
-                    SAD.emplace_back(*student);
-                    auto it1 = student;
-                    auto it2 = std::prev(obj.end(), index);
-                    std::iter_swap(it1, it2);
-                    it_end = std::prev(it_end);
-                    index++;
+            auto it = obj.begin();
+            while (it != obj.end()) {
+                if (it->FinalAverage < 5) {
+                    SAD.push_back(*it);
+                    obj.erase(it++);
+                    ++index;
                 } else {
-                    ++student;
+                    ++it;
                 }
             }
-            auto eraseIndex = std::prev(obj.end(), index+1);
-            obj.erase(eraseIndex, obj.end());
             obj.sort(compareAverage);
-            auto end = std::chrono::high_resolution_clock::now();
-            std::chrono::duration<double> diff = end - start;
-            Marktime.emplace_back(diff.count());
         } else {
             int index = 0;
-            auto it_end = obj.end();
-            for (auto student = obj.begin(); student != it_end;) {
-                if (student->median < 5) {
-                    SAD.emplace_back(*student);
-                    auto it1 = student;
-                    auto it2 = std::prev(obj.end(), index+1);
-                    std::iter_swap(it1, it2);
-                    it_end = std::prev(it_end);
-                    index++;
+            auto it = obj.begin();
+            while (it != obj.end()) {
+                if (it->median < 5) {
+                    SAD.push_back(*it);
+                    obj.erase(it++);
+                    ++index;
                 } else {
-                    ++student;
+                    ++it;
                 }
             }
-            auto eraseIndex = std::prev(obj.end(), index);
-            obj.erase(eraseIndex, obj.end());
             obj.sort(compareMedian);
-            auto end = std::chrono::high_resolution_clock::now();
-            std::chrono::duration<double> diff = end - start;
-            Marktime.emplace_back(diff.count());
         }
+        auto end = std::chrono::high_resolution_clock::now();
+        std::chrono::duration<double> diff = end - start;
+        Marktime.push_back(diff.count());
         break;
     }
     case 3:{
