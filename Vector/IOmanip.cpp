@@ -345,48 +345,57 @@ void CreateFile(string& filename){
 
     }
     }
-    // For testing purposes we keep txt files constant.
-    // auto start = std::chrono::high_resolution_clock::now();
-    // ofstream PrintOut(filename);
-    // if (!PrintOut.is_open()){
-    //     cerr << "Klaida!  Failo atidarymo klaida." << endl;
-    //     return;
-    // }
-    // try{
-    //     ostringstream buffer;
-    //     int s = option;
-    //     int ndsize = 5;
-    //     string ND;
-    //     string Vardas;
-    //     string Pavarde;
-    
-    //     buffer << left << setw(26) << "Vardas"  << setw(26) << "Pavardė";
-    //     for(int i = 0; i<ndsize; i++){ ND = "ND" + std::to_string(i+1); buffer << setw(6) << left << ND;}
-    //     buffer << setw(6) << left << "Egz" << endl;
-    //     unsigned seed = (std::chrono::high_resolution_clock::now().time_since_epoch().count());
-    //     mt19937 rng(seed);
-    //     for(int i = 0; i<s; i++){
-    //         Vardas = "Vardas" + std::to_string(i+1);
-    //         Pavarde = "Pavarde" + std::to_string(i+1);
-    //         buffer << left << setw(26) << Vardas << setw(26) << Pavarde;
+    cout << "(1) Naudoti esantį " << filename << " failą. (2) Sugeneruoti naują " << filename << " failą ";
+    cin >> option;
+    ClearCin();
+    switch(option){
+        case 1:{
+            break;
+        }
+        case 2:{
+            auto start = std::chrono::high_resolution_clock::now();
+            ofstream PrintOut(filename);
+            if (!PrintOut.is_open()){
+                cerr << "Klaida!  Failo atidarymo klaida." << endl;
+                return;
+            }
+            try{
+                ostringstream buffer;
+                int s = option;
+                int ndsize = 5;
+                string ND;
+                string Vardas;
+                string Pavarde;
+            
+                buffer << left << setw(26) << "Vardas"  << setw(26) << "Pavardė";
+                for(int i = 0; i<ndsize; i++){ ND = "ND" + std::to_string(i+1); buffer << setw(6) << left << ND;}
+                buffer << setw(6) << left << "Egz" << endl;
+                unsigned seed = (std::chrono::high_resolution_clock::now().time_since_epoch().count());
+                mt19937 rng(seed);
+                for(int i = 0; i<s; i++){
+                    Vardas = "Vardas" + std::to_string(i+1);
+                    Pavarde = "Pavarde" + std::to_string(i+1);
+                    buffer << left << setw(26) << Vardas << setw(26) << Pavarde;
 
-    //         std::uniform_int_distribution<int> dist(1, 10);
-    //         for(int j = 0; j<ndsize; j++){
-    //             buffer << setw(6) << left << dist(rng);
-    //         }
-    //         buffer << setw(6) << left << dist(rng) << endl;
-    //     }
-        
-    //     PrintOut << buffer.str();
-    //     auto end = std::chrono::high_resolution_clock::now();
-    //     std::chrono::duration<double> diff = end-start;
-    //     Marktime.emplace_back(diff.count());
-    //     PrintOut.close();
-    // }
-    // catch (const exception& e){
-    //     cerr << " Klaida!  Įrašymo į failą klaida " << endl;
-    // }
-
+                    std::uniform_int_distribution<int> dist(1, 10);
+                    for(int j = 0; j<ndsize; j++){
+                        buffer << setw(6) << left << dist(rng);
+                    }
+                    buffer << setw(6) << left << dist(rng) << endl;
+                }
+                
+                PrintOut << buffer.str();
+                auto end = std::chrono::high_resolution_clock::now();
+                std::chrono::duration<double> diff = end-start;
+                cout << "Generavimas truko: " << diff.count() << endl;
+                PrintOut.close();
+            }
+            catch (const exception& e){
+                cerr << " Klaida!  Įrašymo į failą klaida " << endl;
+            }
+            break;
+        }
+    }
 }
 
 void OutputTime(){

@@ -171,7 +171,6 @@ void SplitDeque(deque<stud>& obj, deque<stud> &SAD, deque<stud> &COOL, bool coun
             }
             auto eraseIndex = std::prev(obj.end(), index+1);
             obj.erase(eraseIndex, obj.end());
-            sort(obj.begin(), obj.end(), countByAvg ? compareAverage : compareMedian);
             auto end = std::chrono::high_resolution_clock::now();
             std::chrono::duration<double> diff = end - start;
             Marktime.emplace_back(diff.count());
@@ -192,11 +191,11 @@ void SplitDeque(deque<stud>& obj, deque<stud> &SAD, deque<stud> &COOL, bool coun
             }
             auto eraseIndex = std::prev(obj.end(), index);
             obj.erase(eraseIndex, obj.end());
-            sort(obj.begin(), obj.end(), countByAvg ? compareAverage : compareMedian);
             auto end = std::chrono::high_resolution_clock::now();
             std::chrono::duration<double> diff = end - start;
             Marktime.emplace_back(diff.count());
         }
+        sort(obj.begin(), obj.end(), countByAvg ? compareAverage : compareMedian);
         break;
     }
     case 3:{

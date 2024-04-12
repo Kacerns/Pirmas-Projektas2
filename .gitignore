@@ -34,3 +34,4 @@
 # Text files
 
 *.txt
+!CMakeLists.txt

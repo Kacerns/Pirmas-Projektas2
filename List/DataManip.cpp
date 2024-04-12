@@ -127,7 +127,7 @@ void sorting(list<stud>& obj, bool countByAvg){
 
 void SplitList(list<stud>& obj, list<stud> &SAD, list<stud> &COOL, bool countByAvg){
 
-        int temp;
+    int temp;
     cout << "Strategija : 1, 2, 3" << endl;
     cin >> temp;
     ClearCin();
@@ -166,49 +166,45 @@ void SplitList(list<stud>& obj, list<stud> &SAD, list<stud> &COOL, bool countByA
     case 2:{
         auto start = std::chrono::high_resolution_clock::now();
         if (countByAvg) {
-            int index = 0;
             auto it = obj.begin();
             while (it != obj.end()) {
                 if (it->FinalAverage < 5) {
                     SAD.push_back(*it);
                     obj.erase(it++);
-                    ++index;
                 } else {
                     ++it;
                 }
             }
-            obj.sort(compareAverage);
+            
         } else {
-            int index = 0;
             auto it = obj.begin();
             while (it != obj.end()) {
                 if (it->median < 5) {
                     SAD.push_back(*it);
                     obj.erase(it++);
-                    ++index;
                 } else {
                     ++it;
                 }
             }
-            obj.sort(compareMedian);
         }
         auto end = std::chrono::high_resolution_clock::now();
         std::chrono::duration<double> diff = end - start;
         Marktime.push_back(diff.count());
+        countByAvg ? obj.sort(compareAverage) : obj.sort(compareMedian);
         break;
     }
     case 3:{
         auto start = std::chrono::high_resolution_clock::now();
         if(countByAvg){
-            std::remove_copy_if(obj.begin(), obj.end(), std::back_inserter(SAD), [](const auto& student){return student.FinalAverage >= 5;});
-            obj.erase(std::remove_if(obj.begin(), obj.end(),[](const auto& student){ return student.FinalAverage >= 5; }), obj.end());
+            std::copy_if(obj.begin(), obj.end(), std::back_inserter(SAD), [](const auto& student){return student.FinalAverage < 5;});
+            obj.erase(std::remove_if(obj.begin(), obj.end(),[](const auto& student){ return student.FinalAverage < 5; }), obj.end());
             auto end = std::chrono::high_resolution_clock::now();
             std::chrono::duration<double> diff = end-start;
             Marktime.emplace_back(diff.count());
         }
         else{
-            std::remove_copy_if(obj.begin(), obj.end(), std::back_inserter(SAD), [](const auto& student){return student.median >= 5;});
-            obj.erase(std::remove_if(obj.begin(), obj.end(),[](const auto& student){ return student.median >= 5;}), obj.end());
+            std::copy_if(obj.begin(), obj.end(), std::back_inserter(SAD), [](const auto& student){return student.median < 5;});
+            obj.erase(std::remove_if(obj.begin(), obj.end(),[](const auto& student){ return student.median < 5; }), obj.end());
             auto end = std::chrono::high_resolution_clock::now();
             std::chrono::duration<double> diff = end-start;
             Marktime.emplace_back(diff.count());
