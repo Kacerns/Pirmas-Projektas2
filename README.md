@@ -1,4 +1,17 @@
-# Welcome to my first published c++ project on github
+### Welcome to my first published c++ project on github
+## Setup
+   1. Download MinGW compiler.
+   2. Open cmd
+   3. Open the project, then navigate to the folder named vector.
+   4. Open the terminal and execute the following commands:
+   ```
+   mkdir build
+   cd build
+   cmake ..
+   make
+   ./my_program
+   ```
+   5. Enjoy!
 
 This repository contains two *.cpp files
 Both C.cpp and vector.cpp achieve the same objective of enabling users to input their students name/surname, along with their homework/exam grades, and subsequently calculate the final grade using either the average or median with a specific formula.:
