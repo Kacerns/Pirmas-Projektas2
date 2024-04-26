@@ -31,9 +31,9 @@ void Assign(vector<stud> &obj){
                     {
                         obj.resize(counter+1);
                         cout << "Įveskite " << counter+1 << " studento vardą :  ";
-                        obj.at(counter).vard = StringParameters();
+                        obj.at(counter).setName(StringParameters());
                         cout << "Įveskite " << counter+1 << " studento pavardę :  ";
-                        obj.at(counter).pav = StringParameters();
+                        obj.at(counter).setSurname(StringParameters());
                         cout << "Įveskite " << counter+1 << "-o studento namų darbų pažymius ( Jei norite baigti, įveskite 11) "<<endl;
                         bool ndCheck = true;
                         int tempgrade = 0;
@@ -44,7 +44,7 @@ void Assign(vector<stud> &obj){
                                 break;
                             }
                             else{
-                                obj.at(counter).nd.push_back(tempgrade);
+                                obj.at(counter).getHomeWorkRez().push_back(tempgrade);
                             }
                         }
                         int s = obj.at(counter).nd.size();
@@ -200,7 +200,6 @@ void Print (vector<stud> &obj, bool countByAvg){
 
 void readFile(vector<stud> &obj, const string filename, const bool countByAvg){
 
-    int s = 0;
     int counter = 0;
     auto start = std::chrono::high_resolution_clock::now();
     ifstream file(filename);
@@ -211,60 +210,10 @@ void readFile(vector<stud> &obj, const string filename, const bool countByAvg){
     try{
         string line;
         getline(file, line);
-
         while (getline(file, line)){
-            stud* temp = new stud;
-            istringstream iss(line);
-            if (!(iss >> temp->vard >> temp->pav)){
-                cerr << "Klaida!  Studento vardo ir pavardės skaitymo nuo failo klaida " << filename << endl;
-                continue;
-            }
-
-            int number;
-
-            while (iss >> number){
-
-                temp->nd.push_back(number);
-                temp->FinalAverage += number;
-            }
-
-            if (temp->nd.empty()){
-
-                cerr << "Klaida!  Studento pažymių skaitymo nuo failo klaida " << filename << endl;
-                continue;
-            }
-
-            temp->egz = temp->nd.back();
-            temp->nd.pop_back();
-            temp->FinalAverage -= temp->egz;
-            s = temp->nd.size();
-
-            if(s >= 1){
-                if(countByAvg){
-                    temp->FinalAverage = ((temp->FinalAverage/s)*0.4) + 0.6*temp->egz;
-                }
-                else{
-                    sort(temp->nd.begin(), temp->nd.end());
-                    if(s%2==0){
-                        temp->median = (float)temp->nd.at((s/2)-1) + (float)temp->nd.at((s/2));
-                        temp->median = temp->median/2.0;
-                        temp->median = temp->median*0.4;
-                    }
-                    else{
-                        temp->median = temp->nd.at(((float)s/2)-0.5);
-                        temp->median = temp->median*0.4;
-                    }
-                        temp->median = (float)temp->egz * 0.6 + temp->median;
-                }
-            }
-            else{
-
-                temp->FinalAverage = 0.6*temp->egz;
-                temp->median = 0.6*temp->egz;
-
-            }
-            obj.emplace_back(*temp);
-            delete temp;
+            istringstream is(line);
+            try{stud temp(is, countByAvg); obj.emplace_back(temp);}
+            catch(const runtime_error& e){continue;}
             counter++;
         }
     }

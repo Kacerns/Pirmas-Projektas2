@@ -16,13 +16,42 @@ private:
   string pav;
   int egz;
   vector<int> nd;
-  float FinalAverage;
-  float median;
+  float FinalMark;
 public:
-  Studentas() : egz(0), FinalAverage(0.0), median(0.0)  { }  // default konstruktorius
-  Studentas(std::istream& is);
-  inline string vardas() const { return vard; }    // get'eriai, inline
-  inline string pavarde() const { return pav; }  // get'eriai, inline
-  double galBalas(double (*) (vector<double>) = mediana) const;  // get'eriai
-  std::istream& readStudent(std::istream&);  // set'eriai
+
+  stud() noexcept : //constructors start
+    vard(""),
+    pav(""),
+    egz(0),
+    nd(0),
+    FinalMark(0)
+  {}
+  stud(std::istream &is, bool CountByAvg) noexcept;
+  stud(string vard_, string pav_, int egz_, vector<int> nd_) noexcept :
+    vard(vard_),
+    pav(pav_),
+    egz(egz_),
+    nd(nd_),
+    FinalMark(0)
+  {}  //constructors end
+
+  string getName() const { return vard; } //setters and getters start
+  void setName(string str) { vard = str; }
+
+  string getSurname() const { return pav; }
+  void setSurname(string str) { pav = str; }
+
+  int getEgzamRez() const { return egz; }
+  void setEgzamRez(int i) { egz = i; }
+
+  vector<int>& getHomeWorkRez() { return nd; }
+  int getHomeWorkSize() { return nd.size(); }
+  void setHomeWorkRez(vector<int> vec) { nd = vec; } //setters and getters end
+
+  ~stud() {nd.clear();} //destructor
+
+  double CalculateFinalMark(bool CountByAvg, int sum); //Methods start
+
+  std::istream& ReadStudent(std::istream& is, bool CountByAvg);
+
 };
