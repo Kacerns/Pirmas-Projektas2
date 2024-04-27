@@ -1,6 +1,5 @@
 #pragma once
 
-#include "student.hpp"
 #include <iostream>
 #include <iomanip>
 #include <string>
@@ -12,6 +11,8 @@
 #include <fstream>
 #include <deque>
 #include <list>
+#include <istream>
+
 
 using std::cout;
 using std::cin;
@@ -40,3 +41,4 @@ using std::ostringstream;
 
 extern vector<double> Marktime;
 extern vector<double> AverageTime;
+

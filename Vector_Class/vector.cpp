@@ -2,6 +2,7 @@
 #include "IOmanip.h"
 #include "ErrorHandling.h"
 #include "DataManip.h"
+#include "student.hpp"
 
 vector<double> Marktime;
 vector<double> AverageTime;
@@ -66,10 +67,10 @@ int main(){
 
     vector<stud> SAD,COOL;
 
-    sorting(obj, countByAvg);
-    SplitVector(obj, SAD, COOL, countByAvg);
-    if(SAD.size() != 0){sorting(SAD, countByAvg);};
-    if(COOL.size() != 0){sorting(COOL, countByAvg);};
+    SplitVector(obj, SAD, COOL);
+    if(obj.size() != 0){sorting(obj);};
+    if(SAD.size() != 0){sorting(SAD);};
+    if(COOL.size() != 0){sorting(COOL);};
 
     pass = true;
     while(pass){

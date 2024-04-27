@@ -29,6 +29,7 @@ std::istream& stud::ReadStudent(std::istream& is, bool CountByAvg){
     sum -= egz;
 
     CalculateFinalMark(CountByAvg, sum);
+    return is;
 
 }
 

@@ -2,14 +2,6 @@
 
 #include "lib.h"
 
-// struct stud{
-//     string vard, pav;
-//     vector<int> nd;
-//     int egz = 0;
-//     float FinalAverage = 0.0;
-//     float median = 0.0;
-// };
-
 class stud {
 private:
   string vard;
@@ -61,4 +53,8 @@ public:
   void GenerateRandomGrades(int Quantity, int counter, bool CountByAvg);
 
   void GenerateRandomName(int counter);
+
+  bool compareName(const stud& a, const stud& b){return a.vard < b.vard;}
+  bool compareSurname(const stud& a, const stud& b){return a.pav < b.pav;}
+  bool compareMark(const stud& a, const stud& b){return a.FinalMark < b.FinalMark;}
 };

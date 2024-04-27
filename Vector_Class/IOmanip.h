@@ -2,6 +2,7 @@
 
 #include "lib.h"
 #include "DataManip.h"
+#include "student.hpp"
 #include "ErrorHandling.h"
 
 void Assign(vector<stud> &obj, bool countByAvg);
