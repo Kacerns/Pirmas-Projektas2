@@ -54,7 +54,7 @@ int main(){
             break;
         }
         case 2 :{
-            Assign(obj);
+            Assign(obj, countByAvg);
             pass = false;
             break;
         }
@@ -82,14 +82,17 @@ int main(){
     switch (option){
         case 1 :{
             filename = "Liūdesiukai.txt";
-            if(SAD.size() !=0){ PrintFile(SAD, countByAvg, filename);} else{PrintFile(obj, countByAvg, filename);};
+            if(SAD.size() !=0){ PrintFile(SAD, filename);} else{PrintFile(obj, filename);};
             filename = "Kietiakai.txt";
-            if(COOL.size() !=0){ PrintFile(COOL, countByAvg, filename);} else{PrintFile(obj, countByAvg, filename);};
+            if(COOL.size() !=0){ PrintFile(COOL, filename);} else{PrintFile(obj, filename);};
             pass = false;
             break;
         }
         case 2 :{
-            Print(obj, countByAvg);
+            cout << "Liudesiukai: " << endl;
+            if(SAD.size() !=0){ Print(SAD);} else{Print(obj);};
+            cout << "Kietiakai: " << endl;
+            if(COOL.size() !=0){ Print(COOL);} else{Print(obj);};
             pass = false;
             break;
         }

@@ -18,6 +18,8 @@ private:
   vector<int> nd;
   float FinalMark;
 public:
+  vector <string> Names {"Audrius", "Edvard", "Ganesh", "Nojus", "Cleophas", "Rodrigo","Jurgita", "Ugne", "Tatiana", "Sarah"};  // Names and Surnames for random generation
+  vector <string> Surnames {"Czerniewicz", "Finch", "Hummel", "McKowen", "Warszawski", "Clery", "Wilbur", "Kennedy", "Nixon", "Obama"};
 
   stud() noexcept : //constructors start
     vard(""),
@@ -54,4 +56,9 @@ public:
 
   std::istream& ReadStudent(std::istream& is, bool CountByAvg);
 
+  void AddMark(int grade){nd.push_back(grade);}
+
+  void GenerateRandomGrades(int Quantity, int counter, bool CountByAvg);
+
+  void GenerateRandomName(int counter);
 };

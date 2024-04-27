@@ -58,3 +58,29 @@ double stud::CalculateFinalMark(bool CountByAvg, int sum){
     return FinalMark;
     
 }
+
+void stud::GenerateRandomGrades(int Quantity, int counter, bool CountByAvg){
+    unsigned seed = (std::chrono::high_resolution_clock::now().time_since_epoch().count()) + counter*Quantity;
+    mt19937 rng(seed);
+    cout << " Generuojami pažymiai... " << endl;
+    std::uniform_int_distribution<int> dist(1, 10);
+    egz = dist(rng);
+    int sum = 0;
+    for(int i = 0; i<Quantity; i++){
+        nd.push_back(dist(rng));
+        sum += nd.back();
+    }
+    CalculateFinalMark(CountByAvg, sum);
+    cout << " Pažymiai sugeneruoti " << endl;
+}
+
+void stud::GenerateRandomName(int counter){
+    unsigned seed = (std::chrono::high_resolution_clock::now().time_since_epoch().count()) + counter;
+    mt19937 rng(seed);
+    cout << " Generuojami vardai... " << endl;
+    std::uniform_int_distribution<int> distNames(0, Names.size()-1);
+    std::uniform_int_distribution<int> distSurNames(0, Surnames.size()-1);
+    vard = Names.at(distNames(rng));
+    pav = Surnames.at(distSurNames(rng));
+    cout << " Vardai sugeneruoti " << endl;
+}
