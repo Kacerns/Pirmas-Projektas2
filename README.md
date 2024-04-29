@@ -41,15 +41,26 @@ Average time spent on Input, Sorting and Output(Data was tested 3 times):
 
 ### V1.1
    ##  Testing Classes vs Structures
-   #   Classes results:
-       100000.txt file: ![image](https://github.com/Kacerns/Pirmas-Projektas2/assets/148889303/5b98d4b6-83d2-43d6-a6d5-cae08abd6c41)
-       1000000.txt file : ![image](https://github.com/Kacerns/Pirmas-Projektas2/assets/148889303/6df7e2fe-2603-4e0f-b3f8-d3c1c99f0056)
-   #   Struct results:
-       100000.txt file: ![image](https://github.com/Kacerns/Pirmas-Projektas2/assets/148889303/a7f570ad-2d37-4bca-b0d5-04414385a357)
-       1000000.txt file: ![image](https://github.com/Kacerns/Pirmas-Projektas2/assets/148889303/1c0983f7-e273-4f7a-b0ad-4b5758e4e41a)
+   ##   Classes results
+   #    100000.txt file: ![image](https://github.com/Kacerns/Pirmas-Projektas2/assets/148889303/5b98d4b6-83d2-43d6-a6d5-cae08abd6c41)
+   #    1000000.txt file : ![image](https://github.com/Kacerns/Pirmas-Projektas2/assets/148889303/6df7e2fe-2603-4e0f-b3f8-d3c1c99f0056)
+   ##   Struct results
+   100000.txt file: ![image](https://github.com/Kacerns/Pirmas-Projektas2/assets/148889303/a7f570ad-2d37-4bca-b0d5-04414385a357)
+   1000000.txt file: ![image](https://github.com/Kacerns/Pirmas-Projektas2/assets/148889303/1c0983f7-e273-4f7a-b0ad-4b5758e4e41a)
    ## Testing Optimisation
    #   O1:
-       
+   100000.txt file : ![image](https://github.com/Kacerns/Pirmas-Projektas2/assets/148889303/17388fea-eba7-414c-8d49-a8da8b9b7d00)
+   1000000.txt file : ![image](https://github.com/Kacerns/Pirmas-Projektas2/assets/148889303/d389843a-8fb2-4c68-8cd1-eb3d77c45542)
+   # O2: 
+   100000.txt file : ![image](https://github.com/Kacerns/Pirmas-Projektas2/assets/148889303/8dec343e-914f-4b8e-a244-7bd95ca65580)
+   1000000.txt file : ![image](https://github.com/Kacerns/Pirmas-Projektas2/assets/148889303/8ffaf25b-fd25-4d47-ac7e-598be36475b3)
+   # O3: 
+   100000.txt file : ![image](https://github.com/Kacerns/Pirmas-Projektas2/assets/148889303/4e989667-a773-4503-8226-a014b68b8d69)
+   1000000.txt file : ![image](https://github.com/Kacerns/Pirmas-Projektas2/assets/148889303/75c71dc8-c0a8-4b19-bac7-ea25283518a5)
+
+
+
+
 
 
 
