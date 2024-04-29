@@ -43,7 +43,6 @@ float stud::CalculateFinalMark(bool CountByAvg, int sum){
     }
     if(CountByAvg){
         FinalMark = sum/(float)s*0.4 + 0.6*egz;
-        cout << FinalMark << endl;
         return FinalMark;
     }
 
