@@ -39,3 +39,21 @@ Average time spent on Input, Sorting and Output(Data was tested 3 times):
    Sorting: 10.31 seconds
    Output:  17.12 seconds
 
+### V1.1
+   ##  Testing Classes vs Structures
+   #   Classes results:
+       100000.txt file: ![image](https://github.com/Kacerns/Pirmas-Projektas2/assets/148889303/5b98d4b6-83d2-43d6-a6d5-cae08abd6c41)
+       1000000.txt file : ![image](https://github.com/Kacerns/Pirmas-Projektas2/assets/148889303/6df7e2fe-2603-4e0f-b3f8-d3c1c99f0056)
+   #   Struct results:
+       100000.txt file: ![image](https://github.com/Kacerns/Pirmas-Projektas2/assets/148889303/a7f570ad-2d37-4bca-b0d5-04414385a357)
+       1000000.txt file: ![image](https://github.com/Kacerns/Pirmas-Projektas2/assets/148889303/1c0983f7-e273-4f7a-b0ad-4b5758e4e41a)
+   ## Testing Optimisation
+   #   O1:
+       
+
+
+
+
+      
+
+
