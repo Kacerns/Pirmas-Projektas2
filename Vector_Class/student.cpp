@@ -1,6 +1,6 @@
 #include "student.hpp"
 
-stud::stud(std::istream &is, bool CountByAvg){
+stud::stud(std::istream &is, bool CountByAvg) noexcept {
     ReadStudent(is, CountByAvg);
 };
 
@@ -11,8 +11,8 @@ std::istream& stud::ReadStudent(std::istream& is, bool CountByAvg){
         throw runtime_error("Klaida!  Studento vardo ir pavardės skaitymo nuo failo klaida ");
     }
 
-    int number;
-    int sum;
+    int number = 0;
+    int sum = 0;
 
     while(is >> number){
         nd.push_back(number);
@@ -33,7 +33,8 @@ std::istream& stud::ReadStudent(std::istream& is, bool CountByAvg){
 
 }
 
-double stud::CalculateFinalMark(bool CountByAvg, int sum){
+float stud::CalculateFinalMark(bool CountByAvg, int sum){
+    FinalMark = 0.0;
     int s = nd.size();
 
     if(s==0){
@@ -41,11 +42,12 @@ double stud::CalculateFinalMark(bool CountByAvg, int sum){
         return FinalMark;
     }
     if(CountByAvg){
-        FinalMark = (FinalMark/s)*0.4 + 0.6*egz;
+        FinalMark = sum/(float)s*0.4 + 0.6*egz;
+        cout << FinalMark << endl;
         return FinalMark;
     }
 
-    sort(nd.begin(), nd.end());
+    sort(nd.begin(), nd.end()); 
     
     if(s%2!=0){
         FinalMark = nd.at(((float)s/2)-0.5);
@@ -55,7 +57,7 @@ double stud::CalculateFinalMark(bool CountByAvg, int sum){
         FinalMark = (float)nd.at((s/2)-1) + nd.at((s/2));
         FinalMark = (FinalMark/2.0)*0.4;
     }
-    FinalMark = (float)egz * 0.6 + FinalMark;
+    FinalMark = ((float)egz * 0.6) + FinalMark;
     return FinalMark;
     
 }

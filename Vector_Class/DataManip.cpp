@@ -48,10 +48,10 @@ void sorting(vector<stud>& obj){
 }
 
 void SplitVector(vector<stud>& obj, vector<stud> &SAD, vector<stud> &COOL){
-    
+    sort(obj.begin(), obj.end(), stud::compareMark);
     auto start = std::chrono::high_resolution_clock::now();
-    std::copy_if(obj.begin(), obj.end(), std::back_inserter(SAD), [](const stud& student){return student.getEgzamRez() < 5;});
-    obj.erase(std::remove_if(obj.begin(), obj.end(),[](const stud& student){ return student.getEgzamRez() < 5; }), obj.end());
+    std::copy_if(obj.begin(), obj.end(), std::back_inserter(SAD), [](const stud& student){return student.getFinalMark() < 5;});
+    obj.erase(std::remove_if(obj.begin(), obj.end(),[](const stud& student){ return student.getFinalMark() < 5; }), obj.end());
     auto end = std::chrono::high_resolution_clock::now();
     std::chrono::duration<double> diff = end-start;
     Marktime.emplace_back(diff.count());

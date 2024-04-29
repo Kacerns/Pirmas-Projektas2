@@ -6,7 +6,7 @@ class stud {
 private:
   string vard;
   string pav;
-  int egz;
+  float egz;
   vector<int> nd;
   float FinalMark;
 public:
@@ -18,7 +18,7 @@ public:
     pav(""),
     egz(0),
     nd(0),
-    FinalMark(0)
+    FinalMark(0.0)
   {}
   stud(std::istream &is, bool CountByAvg) noexcept;
   stud(string vard_, string pav_, int egz_, vector<int> nd_) noexcept :
@@ -26,7 +26,7 @@ public:
     pav(pav_),
     egz(egz_),
     nd(nd_),
-    FinalMark(0)
+    FinalMark(0.0)
   {}  //constructors end
 
   string getName() const { return vard; } //setters and getters start
@@ -35,8 +35,10 @@ public:
   string getSurname() const { return pav; }
   void setSurname(string str) { pav = str; }
 
-  int getEgzamRez() const { return egz; }
+  float getEgzamRez() const { return egz; }
   void setEgzamRez(int i) { egz = i; }
+
+  float getFinalMark() const { return FinalMark; }
 
   vector<int>& getHomeWorkRez() { return nd; }
   int getHomeWorkSize() { return nd.size(); }
@@ -44,7 +46,7 @@ public:
 
   ~stud() {nd.clear();} //destructor
 
-  double CalculateFinalMark(bool CountByAvg, int sum); //Methods start
+  float CalculateFinalMark(bool CountByAvg, int sum); //Methods start
 
   std::istream& ReadStudent(std::istream& is, bool CountByAvg);
 
@@ -54,7 +56,7 @@ public:
 
   void GenerateRandomName(int counter);
 
-  bool compareName(const stud& a, const stud& b){return a.vard < b.vard;}
-  bool compareSurname(const stud& a, const stud& b){return a.pav < b.pav;}
-  bool compareMark(const stud& a, const stud& b){return a.FinalMark < b.FinalMark;}
+  bool static compareName(const stud& a, const stud& b){return a.vard < b.vard;}
+  bool static compareSurname(const stud& a, const stud& b){return a.pav < b.pav;}
+  bool static compareMark(const stud& a, const stud& b){return a.FinalMark < b.FinalMark;}
 };

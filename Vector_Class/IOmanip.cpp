@@ -160,7 +160,7 @@ void Print (const vector<stud> &obj){
     for (int z = 0; z<70; z++){ cout << '-'; }
     cout << endl;
     for(int i = 0; i<s; i++){
-        cout << left << setw(26) << obj.at(i).getName() << setw(26) << obj.at(i).getSurname() << setw(15) << left << fixed << setprecision(2) << obj.at(i).getEgzamRez() << endl;
+        cout << left << setw(26) << obj.at(i).getName() << setw(26) << obj.at(i).getSurname() << setw(15) << left << fixed << setprecision(2) << obj.at(i).getFinalMark() << endl;
     }
 }
 
@@ -209,7 +209,7 @@ void PrintFile(const vector<stud> &obj, string filename){
         for (int z = 0; z<70; z++){ buffer << '-'; }
         buffer << endl;
         for(int i = 0; i<s; i++){
-            buffer << left << setw(26) << obj.at(i).getName() << setw(26) << obj.at(i).getSurname() << setw(15) << left << fixed << setprecision(2) << obj.at(i).getEgzamRez() << endl;
+            buffer << left << setw(26) << obj.at(i).getName() << setw(26) << obj.at(i).getSurname() << setw(15) << left << fixed << setprecision(2) << obj.at(i).getFinalMark() << endl;
         }
         PrintOut << buffer.str();
         // auto end = std::chrono::high_resolution_clock::now();
