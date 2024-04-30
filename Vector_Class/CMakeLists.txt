@@ -13,6 +13,8 @@ set(SOURCES
     IOmanip.cpp
     IOmanip.h
     lib.h
+    student.hpp
+    student.cpp
     vector.cpp
 )
 

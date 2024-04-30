@@ -1,6 +1,6 @@
 #include "IOmanip.h"
 
-void Assign(vector<stud> &obj){
+void Assign(vector<stud> &obj, bool countByAvg){
 
     bool pass = true;
     bool program = true;
@@ -31,9 +31,9 @@ void Assign(vector<stud> &obj){
                     {
                         obj.resize(counter+1);
                         cout << "Įveskite " << counter+1 << " studento vardą :  ";
-                        obj.at(counter).vard = StringParameters();
+                        obj.at(counter).setName(StringParameters());
                         cout << "Įveskite " << counter+1 << " studento pavardę :  ";
-                        obj.at(counter).pav = StringParameters();
+                        obj.at(counter).setSurname(StringParameters());
                         cout << "Įveskite " << counter+1 << "-o studento namų darbų pažymius ( Jei norite baigti, įveskite 11) "<<endl;
                         bool ndCheck = true;
                         int tempgrade = 0;
@@ -44,23 +44,17 @@ void Assign(vector<stud> &obj){
                                 break;
                             }
                             else{
-                                obj.at(counter).nd.push_back(tempgrade);
+                                obj.at(counter).AddMark(tempgrade);
                             }
                         }
-                        int s = obj.at(counter).nd.size();
-                        for(const int& i : obj.at(counter).nd){
-                            obj.at(counter).FinalAverage += i;
+                        int s = obj.at(counter).getHomeWorkSize();
+                        int sum = 0;
+                        for(const int& i : obj.at(counter).getHomeWorkRez()){
+                            sum += i;
                         }
                         cout << "Įveskite " << counter+1 << "-o studento egzamino rezultatą :  ";
-                        obj.at(counter).egz = ExamParameters();
-                        if(s >= 1){
-                            getAverage(obj, s, counter);
-                            getMedian(obj, s, counter);
-                        }
-                        else{
-                            obj.at(counter).FinalAverage = 0.6*obj.at(counter).egz;
-                            obj.at(counter).median = 0.6*obj.at(counter).egz;
-                        }
+                        obj.at(counter).setEgzamRez(ExamParameters());
+                        obj.at(counter).CalculateFinalMark(countByAvg, sum);
                         counter++;
                         break;
                     }
@@ -101,19 +95,10 @@ void Assign(vector<stud> &obj){
                     {
                         obj.resize(counter+1);
                         cout << "Įveskite " << counter+1 << " studento vardą :  ";
-                        obj.at(counter).vard = StringParameters();
+                        obj.at(counter).setName(StringParameters());
                         cout << "Įveskite " << counter+1 << " studento pavardę :  ";
-                        obj.at(counter).pav = StringParameters();
-                        RandomGrades(obj, counter, numberOfHw);
-                        int s = obj.at(counter).nd.size();
-                        if(s >= 1){
-                            getAverage(obj, s, counter);
-                            getMedian(obj, s, counter);
-                        }
-                        else{
-                            obj.at(counter).FinalAverage = 0.6*obj.at(counter).egz;
-                            obj.at(counter).median = 0.6*obj.at(counter).egz;
-                        }
+                        obj.at(counter).setSurname(StringParameters());
+                        obj.at(counter).GenerateRandomGrades(numberOfHw, counter, countByAvg);
                         counter++;
                         break;
                     }
@@ -148,17 +133,8 @@ void Assign(vector<stud> &obj){
             numberOfHw = StartParameters();
             for(counter; counter < numberOfSt; counter++){
                 obj.resize(counter+1);
-                RandomNames(obj, counter);
-                RandomGrades(obj, counter, numberOfHw);
-                int s = obj.at(counter).nd.size();
-                if(s >= 1){
-                    getAverage(obj, s, counter);
-                    getMedian(obj, s, counter);
-                }
-                else{
-                    obj.at(counter).FinalAverage = 0.6*obj.at(counter).egz;
-                    obj.at(counter).median = 0.6*obj.at(counter).egz;
-                }
+                obj.at(counter).GenerateRandomName(counter);
+                obj.at(counter).GenerateRandomGrades(numberOfHw, counter, countByAvg);
             }
             break;
         }
@@ -177,30 +153,19 @@ void Assign(vector<stud> &obj){
 }
 }
 
-void Print (vector<stud> &obj, bool countByAvg){
+void Print (const vector<stud> &obj){
     int s = obj.size();
 
-    if(countByAvg){
-        cout << left << setw(26) << "Vardas"  << setw(26) << "Pavardė" << setw(15) << left << "Galutinis (Vid.)" << endl;
-        for (int z = 0; z<70; z++){ cout << '-'; }
-        cout << endl;
-        for(int i = 0; i<s; i++){
-            cout << left << setw(26) << obj.at(i).vard << setw(26) << obj.at(i).pav << setw(15) << left << fixed << setprecision(2) << obj.at(i).FinalAverage << endl;
-        }
-    }
-    else{
-        cout << left << setw(26) << "Vardas"  << setw(26) << "Pavardė" << setw(15) << left << "Galutinis (Med.)" << endl;
-        for (int z = 0; z<70; z++){ cout << '-'; }
-        cout << endl;
-        for(int i = 0; i<s; i++){
-            cout << left << setw(26) << obj.at(i).vard << setw(26) << obj.at(i).pav << setw(15) << left << fixed << setprecision(2) << obj.at(i).median << endl;
-        }
+    cout << left << setw(26) << "Vardas"  << setw(26) << "Pavardė" << setw(15) << left << "Galutinis" << endl;
+    for (int z = 0; z<70; z++){ cout << '-'; }
+    cout << endl;
+    for(int i = 0; i<s; i++){
+        cout << left << setw(26) << obj.at(i).getName() << setw(26) << obj.at(i).getSurname() << setw(15) << left << fixed << setprecision(2) << obj.at(i).getFinalMark() << endl;
     }
 }
 
 void readFile(vector<stud> &obj, const string filename, const bool countByAvg){
 
-    int s = 0;
     int counter = 0;
     auto start = std::chrono::high_resolution_clock::now();
     ifstream file(filename);
@@ -211,60 +176,10 @@ void readFile(vector<stud> &obj, const string filename, const bool countByAvg){
     try{
         string line;
         getline(file, line);
-
         while (getline(file, line)){
-            stud* temp = new stud;
-            istringstream iss(line);
-            if (!(iss >> temp->vard >> temp->pav)){
-                cerr << "Klaida!  Studento vardo ir pavardės skaitymo nuo failo klaida " << filename << endl;
-                continue;
-            }
-
-            int number;
-
-            while (iss >> number){
-
-                temp->nd.push_back(number);
-                temp->FinalAverage += number;
-            }
-
-            if (temp->nd.empty()){
-
-                cerr << "Klaida!  Studento pažymių skaitymo nuo failo klaida " << filename << endl;
-                continue;
-            }
-
-            temp->egz = temp->nd.back();
-            temp->nd.pop_back();
-            temp->FinalAverage -= temp->egz;
-            s = temp->nd.size();
-
-            if(s >= 1){
-                if(countByAvg){
-                    temp->FinalAverage = ((temp->FinalAverage/s)*0.4) + 0.6*temp->egz;
-                }
-                else{
-                    sort(temp->nd.begin(), temp->nd.end());
-                    if(s%2==0){
-                        temp->median = (float)temp->nd.at((s/2)-1) + (float)temp->nd.at((s/2));
-                        temp->median = temp->median/2.0;
-                        temp->median = temp->median*0.4;
-                    }
-                    else{
-                        temp->median = temp->nd.at(((float)s/2)-0.5);
-                        temp->median = temp->median*0.4;
-                    }
-                        temp->median = (float)temp->egz * 0.6 + temp->median;
-                }
-            }
-            else{
-
-                temp->FinalAverage = 0.6*temp->egz;
-                temp->median = 0.6*temp->egz;
-
-            }
-            obj.emplace_back(*temp);
-            delete temp;
+            istringstream is(line);
+            try{stud temp(is, countByAvg); obj.emplace_back(temp);}
+            catch(const runtime_error& e){continue;}
             counter++;
         }
     }
@@ -277,7 +192,7 @@ void readFile(vector<stud> &obj, const string filename, const bool countByAvg){
     ifstream fclose(filename);
 }
 
-void PrintFile(vector<stud> &obj, bool countByAvg, string filename){
+void PrintFile(const vector<stud> &obj, string filename){
 
     // auto start = std::chrono::high_resolution_clock::now();
     ofstream PrintOut(filename);
@@ -290,21 +205,11 @@ void PrintFile(vector<stud> &obj, bool countByAvg, string filename){
         ostringstream buffer;
         int s = obj.size();
 
-        if(countByAvg){
-            buffer << left << setw(26) << "Vardas"  << setw(26) << "Pavardė" << setw(15) << left << "Galutinis (Vid.)" << endl;
-            for (int z = 0; z<70; z++){ buffer << '-'; }
-            buffer << endl;
-            for(int i = 0; i<s; i++){
-                buffer << left << setw(26) << obj.at(i).vard << setw(26) << obj.at(i).pav << setw(15) << left << fixed << setprecision(2) << obj.at(i).FinalAverage << endl;
-            }
-        }
-        else{
-            buffer << left << setw(26) << "Vardas"  << setw(26) << "Pavardė" << setw(15) << left << "Galutinis (Med.)" << endl;
-            for (int z = 0; z<70; z++){ buffer << '-'; }
-            buffer << endl;
-            for(int i = 0; i<s; i++){
-                buffer << left << setw(26) << obj.at(i).vard << setw(26) << obj.at(i).pav << setw(15) << left << fixed << setprecision(2) << obj.at(i).median << endl;
-            }
+        buffer << left << setw(26) << "Vardas"  << setw(26) << "Pavardė" << setw(15) << left << "Galutinis" << endl;
+        for (int z = 0; z<70; z++){ buffer << '-'; }
+        buffer << endl;
+        for(int i = 0; i<s; i++){
+            buffer << left << setw(26) << obj.at(i).getName() << setw(26) << obj.at(i).getSurname() << setw(15) << left << fixed << setprecision(2) << obj.at(i).getFinalMark() << endl;
         }
         PrintOut << buffer.str();
         // auto end = std::chrono::high_resolution_clock::now();
