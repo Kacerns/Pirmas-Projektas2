@@ -44,4 +44,6 @@ using std::move;
 
 extern vector<double> Marktime;
 extern vector<double> AverageTime;
+extern vector<string> Names;
+extern vector<string> Surnames;
 
