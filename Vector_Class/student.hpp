@@ -45,6 +45,12 @@ public:
   float getEgzamRez() const { return egz; } // setters and getters start
   void setEgzamRez(int i) { egz = i; }
 
+  string getName() const {return vard;} // setters and getters start
+  void setName(string str) { vard = str; }
+
+  string getSurname() const {return pav;}
+  void setSurname(string str) { pav = str; } // setters and getters end
+
   float getFinalMark() const { return FinalMark; }
 
   vector<int>& getHomeWorkRez() { return nd; }
