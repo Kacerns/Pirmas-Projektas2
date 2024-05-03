@@ -1,5 +1,6 @@
 #pragma once
 
+#include <utility>
 #include <iostream>
 #include <iomanip>
 #include <string>
@@ -11,6 +12,8 @@
 #include <fstream>
 #include <deque>
 #include <list>
+#include <istream>
+
 
 using std::cout;
 using std::cin;
@@ -36,14 +39,11 @@ using std::exception;
 using std::istringstream;
 using std::ofstream;
 using std::ostringstream;
+using std::move;
 
-struct stud{
-    string vard, pav;
-    vector<int> nd;
-    int egz = 0;
-    float FinalAverage = 0.0;
-    float median = 0.0;
-};
 
 extern vector<double> Marktime;
 extern vector<double> AverageTime;
+extern vector<string> Names;
+extern vector<string> Surnames;
+
