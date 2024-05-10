@@ -105,6 +105,8 @@ int main(){
     // }}
     // OutputTime();
 
+    //zmogus TestBase;
+
     stud Test1; // Vardas1 Pavarde1 9 9 10 6 3 4
     IstreamInputTest(Test1, "Test1Student.txt");
     stud Test2; // Vardas2 Pavarde2 6 3 4 3 3 6

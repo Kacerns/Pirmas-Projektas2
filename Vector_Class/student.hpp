@@ -114,7 +114,7 @@ public:
     cout << "\nCopy constructor called\n"<<endl;
   }
 
-  stud(stud&& obj) noexcept : zmogus()
+  stud(stud&& obj) noexcept:zmogus()
   {
     vard = (move(obj.vard));
     pav = (move(obj.pav));
