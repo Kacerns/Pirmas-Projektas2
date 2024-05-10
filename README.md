@@ -54,6 +54,7 @@ Average time spent on Input, Sorting and Output(Data was tested 3 times):
 ### Version 1.5 (Abstract Class)
 ## Constructing abstract class
 
+![image](https://github.com/Kacerns/Pirmas-Projektas2/assets/148889303/b8da4186-6d81-4070-8050-d930de78b7b2)
 
 
 
