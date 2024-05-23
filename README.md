@@ -39,15 +39,24 @@ Average time spent on Input, Sorting and Output(Data was tested 3 times):
    Sorting: 10.31 seconds
    Output:  17.12 seconds
 
-### Version 1.2 (Rule of Five)
-## Constructors, Destructors & Operators
-# Copy and Move Constructors ![image](https://github.com/Kacerns/Pirmas-Projektas2/assets/148889303/049f9f67-6e85-4e17-b521-16db16f836f9)
-# Destructor ![image](https://github.com/Kacerns/Pirmas-Projektas2/assets/148889303/2ea16229-ac34-4303-ae2e-811bfdd22364)
-# Copy and Move Operators ![image](https://github.com/Kacerns/Pirmas-Projektas2/assets/148889303/4e96d9fa-3915-47ef-a579-6dc8331d090e)
-# Input and Output Operators ![image](https://github.com/Kacerns/Pirmas-Projektas2/assets/148889303/424a467d-37f7-41c7-b009-2d34084e169f) _Output Operator takes any ostream and prints out default parameters and the final grade_   ![image](https://github.com/Kacerns/Pirmas-Projektas2/assets/148889303/2b0d559a-70cf-4eec-992f-eb728d901985) _The input operator checks for input method and can be used to input by file or by hand in the console_
-## Testing
-# Testing Copy Constructors and operators ![image](https://github.com/Kacerns/Pirmas-Projektas2/assets/148889303/80e8140d-0f5b-4bd4-a30d-d1c9313f2e65) ![image](https://github.com/Kacerns/Pirmas-Projektas2/assets/148889303/e7d09b2d-cb20-4bd7-afee-31a093c6a2a0) ![image](https://github.com/Kacerns/Pirmas-Projektas2/assets/148889303/342ba9bd-710d-44d3-86d1-7b3724709aae)
-# Testing Move Constructors and operators ![image](https://github.com/Kacerns/Pirmas-Projektas2/assets/148889303/90a43282-a3ee-41df-8491-964690349011) ![image](https://github.com/Kacerns/Pirmas-Projektas2/assets/148889303/8c7dfdff-34ce-463b-a2eb-006b6223418d) ![image](https://github.com/Kacerns/Pirmas-Projektas2/assets/148889303/3a76cc90-0b77-4904-bcbe-e83c1b48785b)
+### V1.1
+   ##  Testing Classes vs Structures
+   ##   Classes results
+   #    100000.txt file: ![image](https://github.com/Kacerns/Pirmas-Projektas2/assets/148889303/5b98d4b6-83d2-43d6-a6d5-cae08abd6c41)
+   #    1000000.txt file : ![image](https://github.com/Kacerns/Pirmas-Projektas2/assets/148889303/6df7e2fe-2603-4e0f-b3f8-d3c1c99f0056)
+   ##   Struct results
+   100000.txt file: ![image](https://github.com/Kacerns/Pirmas-Projektas2/assets/148889303/a7f570ad-2d37-4bca-b0d5-04414385a357)
+   1000000.txt file: ![image](https://github.com/Kacerns/Pirmas-Projektas2/assets/148889303/1c0983f7-e273-4f7a-b0ad-4b5758e4e41a)
+   ## Testing Optimisation
+   #   O1:
+   100000.txt file : ![image](https://github.com/Kacerns/Pirmas-Projektas2/assets/148889303/17388fea-eba7-414c-8d49-a8da8b9b7d00) 106 kb
+   1000000.txt file : ![image](https://github.com/Kacerns/Pirmas-Projektas2/assets/148889303/d389843a-8fb2-4c68-8cd1-eb3d77c45542) 106 kb
+   # O2: 
+   100000.txt file : ![image](https://github.com/Kacerns/Pirmas-Projektas2/assets/148889303/8dec343e-914f-4b8e-a244-7bd95ca65580) 112 kb
+   1000000.txt file : ![image](https://github.com/Kacerns/Pirmas-Projektas2/assets/148889303/8ffaf25b-fd25-4d47-ac7e-598be36475b3) 112 kb
+   # O3: 
+   100000.txt file : ![image](https://github.com/Kacerns/Pirmas-Projektas2/assets/148889303/4e989667-a773-4503-8226-a014b68b8d69) 126 kb
+   1000000.txt file : ![image](https://github.com/Kacerns/Pirmas-Projektas2/assets/148889303/75c71dc8-c0a8-4b19-bac7-ea25283518a5) 126 kb
 
 
 
@@ -56,7 +65,6 @@ Average time spent on Input, Sorting and Output(Data was tested 3 times):
 
 
 
-
-
+      
 
 

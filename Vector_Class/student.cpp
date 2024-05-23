@@ -1,18 +1,16 @@
 #include "student.hpp"
 
-vector <string> Names {"Audrius", "Edvard", "Ganesh", "Nojus", "Cleophas", "Rodrigo","Jurgita", "Ugne", "Tatiana", "Sarah"};  // Names and Surnames for random generation
-vector <string> Surnames {"Czerniewicz", "Finch", "Hummel", "McKowen", "Warszawski", "Clery", "Wilbur", "Kennedy", "Nixon", "Obama"};
-
-stud::stud(std::istream &is) noexcept {
-    ReadStudent(is);
+stud::stud(std::istream &is, bool CountByAvg) noexcept {
+    ReadStudent(is, CountByAvg);
 };
 
-std::istream& stud::ReadStudent(std::istream& is){
+std::istream& stud::ReadStudent(std::istream& is, bool CountByAvg){
 
     if(!(is >> vard >> pav)){
         cerr << "Klaida!  Studento vardo ir pavardės skaitymo nuo failo klaida "<< endl;
         throw runtime_error("Klaida!  Studento vardo ir pavardės skaitymo nuo failo klaida ");
     }
+
     int number = 0;
     int sum = 0;
 
@@ -28,14 +26,14 @@ std::istream& stud::ReadStudent(std::istream& is){
 
     egz = nd.back();
     nd.pop_back();
-    sum -=egz;
+    sum -= egz;
 
-    CalculateFinalMark(sum);
+    CalculateFinalMark(CountByAvg, sum);
     return is;
 
 }
 
-float stud::CalculateFinalMark(int sum){
+float stud::CalculateFinalMark(bool CountByAvg, int sum){
     FinalMark = 0.0;
     int s = nd.size();
 
@@ -63,7 +61,7 @@ float stud::CalculateFinalMark(int sum){
     
 }
 
-void stud::GenerateRandomGrades(int Quantity, int counter){
+void stud::GenerateRandomGrades(int Quantity, int counter, bool CountByAvg){
     unsigned seed = (std::chrono::high_resolution_clock::now().time_since_epoch().count()) + counter*Quantity;
     mt19937 rng(seed);
     cout << " Generuojami pažymiai... " << endl;
@@ -74,33 +72,12 @@ void stud::GenerateRandomGrades(int Quantity, int counter){
         nd.push_back(dist(rng));
         sum += nd.back();
     }
-    CalculateFinalMark(sum);
-    cout << " Pažymiai sugeneruoti " << endl;
-}
-void stud::GenerateRandomGrades(int Quantity){
-    unsigned seed = (std::chrono::high_resolution_clock::now().time_since_epoch().count()) + Quantity;
-    mt19937 rng(seed);
-    cout << " Generuojami pažymiai... " << endl;
-    std::uniform_int_distribution<int> dist(1, 10);
-    egz = dist(rng);
-    for(int i = 0; i<Quantity; i++){
-        nd.push_back(dist(rng));
-    }
+    CalculateFinalMark(CountByAvg, sum);
     cout << " Pažymiai sugeneruoti " << endl;
 }
 
 void stud::GenerateRandomName(int counter){
     unsigned seed = (std::chrono::high_resolution_clock::now().time_since_epoch().count()) + counter;
-    mt19937 rng(seed);
-    cout << " Generuojami vardai... " << endl;
-    std::uniform_int_distribution<int> distNames(0, Names.size()-1);
-    std::uniform_int_distribution<int> distSurNames(0, Surnames.size()-1);
-    vard = Names.at(distNames(rng));
-    pav = Surnames.at(distSurNames(rng));
-    cout << " Vardai sugeneruoti " << endl;
-}
-void stud::GenerateRandomName(){
-    unsigned seed = (std::chrono::high_resolution_clock::now().time_since_epoch().count());
     mt19937 rng(seed);
     cout << " Generuojami vardai... " << endl;
     std::uniform_int_distribution<int> distNames(0, Names.size()-1);

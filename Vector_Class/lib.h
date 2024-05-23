@@ -1,6 +1,5 @@
 #pragma once
 
-#include <utility>
 #include <iostream>
 #include <iomanip>
 #include <string>
@@ -13,7 +12,6 @@
 #include <deque>
 #include <list>
 #include <istream>
-
 
 using std::cout;
 using std::cin;
@@ -39,11 +37,7 @@ using std::exception;
 using std::istringstream;
 using std::ofstream;
 using std::ostringstream;
-using std::move;
-
 
 extern vector<double> Marktime;
 extern vector<double> AverageTime;
-extern vector<string> Names;
-extern vector<string> Surnames;
 

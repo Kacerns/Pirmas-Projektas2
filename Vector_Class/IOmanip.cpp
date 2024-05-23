@@ -54,7 +54,7 @@ void Assign(vector<stud> &obj, bool countByAvg){
                         }
                         cout << "Įveskite " << counter+1 << "-o studento egzamino rezultatą :  ";
                         obj.at(counter).setEgzamRez(ExamParameters());
-                        obj.at(counter).CalculateFinalMark(sum);
+                        obj.at(counter).CalculateFinalMark(countByAvg, sum);
                         counter++;
                         break;
                     }
@@ -98,7 +98,7 @@ void Assign(vector<stud> &obj, bool countByAvg){
                         obj.at(counter).setName(StringParameters());
                         cout << "Įveskite " << counter+1 << " studento pavardę :  ";
                         obj.at(counter).setSurname(StringParameters());
-                        obj.at(counter).GenerateRandomGrades(numberOfHw, counter);
+                        obj.at(counter).GenerateRandomGrades(numberOfHw, counter, countByAvg);
                         counter++;
                         break;
                     }
@@ -134,7 +134,7 @@ void Assign(vector<stud> &obj, bool countByAvg){
             for(counter; counter < numberOfSt; counter++){
                 obj.resize(counter+1);
                 obj.at(counter).GenerateRandomName(counter);
-                obj.at(counter).GenerateRandomGrades(numberOfHw, counter);
+                obj.at(counter).GenerateRandomGrades(numberOfHw, counter, countByAvg);
             }
             break;
         }
@@ -178,7 +178,7 @@ void readFile(vector<stud> &obj, const string filename, const bool countByAvg){
         getline(file, line);
         while (getline(file, line)){
             istringstream is(line);
-            try{stud temp(is); obj.emplace_back(temp);}
+            try{stud temp(is, countByAvg); obj.emplace_back(temp);}
             catch(const runtime_error& e){continue;}
             counter++;
         }
