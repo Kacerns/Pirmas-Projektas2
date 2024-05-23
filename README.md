@@ -56,6 +56,17 @@ Average time spent on Input, Sorting and Output(Data was tested 3 times):
 
 ![image](https://github.com/Kacerns/Pirmas-Projektas2/assets/148889303/b8da4186-6d81-4070-8050-d930de78b7b2)
 
+### Version 2.0 (Unit Testing & Doxygen)
+## Unit tests
+In the few unit tests provided I am testing the Default constructor, Assignment constructor, copy constructor and move operator.
+![image](https://github.com/Kacerns/Pirmas-Projektas2/assets/148889303/78df0cad-6ee6-4773-bb7b-c7ea0bf8efa8)
+Here are the results:
+![image](https://github.com/Kacerns/Pirmas-Projektas2/assets/148889303/61522984-826e-49b9-a99b-a338fe7cc72b)
+## Documentation
+The documentation part of this version can be seen in the folder HTML by clicking on the index.html file, or alternatively in the main folder there is a file called "Student_Latex", which is using a latex configuration to provide a pdf file.
+
+
+
 
 
 
